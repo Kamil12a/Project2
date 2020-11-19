@@ -244,7 +244,7 @@ pokemon.addEventListener('click',event =>{
         TopTransform=TopTransform+2;
     },10)
     setTimeout(function(){
-    
+        
         article.style.display="grid"
         header.style.display="none"
         footer.style.display="flex"
