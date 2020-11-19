@@ -144,7 +144,21 @@ field.addEventListener('click', event => {
             arrayChangecross=[];
             arrayChangeNumbcross=[];
             WinPoint1++;
-            article.style.display="none"
+            
+            setTimeout(function(){
+                article.style.display="none"
+                const interval=setInterval(function(){
+                    article.style.display="grid"
+                    transp=transp+0.05
+                    article.style.opacity=transp;
+                    if(transp>1){
+                        clearInterval(interval);
+                    }
+                },100)
+                setTimeout(function(){
+                    transp=0;
+                },3000)
+            },200)
             setTimeout(function(){
                 for(let f=0;f<9;f++){
                     child=article.children[f];
@@ -152,7 +166,7 @@ field.addEventListener('click', event => {
                     article.style.display="grid"
                     
                 }
-            },1000)
+            },100)
                 
             
     }
@@ -173,16 +187,30 @@ field.addEventListener('click', event => {
             arrayChangecross=[];
             arrayChangeNumbcross=[];
             WinPoint2++;
-            article.style.display="none"
+            setTimeout(function(){
+                article.style.display="none"
+                const interval=setInterval(function(){
+                    article.style.display="grid"
+                    transp=transp+0.05
+                    article.style.opacity=transp;
+                    if(transp>1){
+                        clearInterval(interval);
+                    }
+                },100)
+                setTimeout(function(){
+                    transp=0;
+                },3000)
+            },200)
+           
             
             setTimeout(function(){
                 for(let f=0;f<9;f++){
                     child=article.children[f];
                     child.setAttribute('id','emptyId')
-                    article.style.display="grid"
+                    
                     
                 }
-            },1000)
+            },100)
             
             
             
@@ -256,6 +284,7 @@ pokemon.addEventListener('click',event =>{
     
     
 })
+let transp=0;
 const TwoPoke = document.querySelector(".Poke")
 const Player1=document.querySelector("#pokemonPlayer1")
 const Player2=document.querySelector("#pokemonPlayer2")
