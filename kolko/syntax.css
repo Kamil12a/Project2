@@ -1,0 +1,182 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+header{
+    text-align: center;
+}
+body{
+    height: 100vh;
+    box-sizing: border-box;
+    background:url(background.jpg) no-repeat;
+    background-size: cover;
+}
+.start-play{
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.startButton{
+    background-color:transparent;
+    border: none;
+    font-size: 5em;
+    color: orange;
+    font-weight: bold;
+    text-shadow: 0 0 10px white;
+}
+.startButton:focus{
+    outline: none;
+}
+
+main{
+    
+    display: none;
+    justify-content: center;
+    align-content: center;
+}
+.pokemonPlayer1{
+    margin-left: 10%;
+}
+.pokemonPlayer2{
+    margin-right: 10%;
+}
+article{
+    position: absolute;
+    background-color: aliceblue;
+    display: none;
+    grid-template-columns: repeat(3, 15vw);
+    grid-template-columns: repeat(3, 15vw);
+    max-width: 45vw;
+
+    height: 45vw;
+    margin: 0 auto;
+    margin-top: 20px;
+    
+    
+}
+article >*{
+    
+    border: 1px solid black;
+}
+
+
+.Poke{
+    display: none;
+    position: absolute;
+    
+
+    width: 100vw;
+    height: 100%
+}
+.PlayersPoke{
+
+    display: flex;
+    justify-content: space-between;
+    margin-top:35vh ;
+}
+
+
+
+figure{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+#addoval{
+    background:url("kolko.png") no-repeat;
+    background-size:10vw ;
+    background-position: center;
+}
+
+
+#addcross{
+    background:url("krzyzyk.png") no-repeat;
+    background-size:10vw ;
+    background-position: center;
+}
+#emptyId{
+    background-color: aliceblue;
+}
+.pokemon{
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+header{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top:50px ;
+}
+#pokemon{
+    display: none;
+}
+h1{
+    color: orange;
+    text-shadow: 0 0 10px white;
+    font-size: 4em;
+
+}
+.pikachu{
+    width: 10%;
+    position: absolute;
+}
+.bullbasaur{
+    width: 10%;
+    position: absolute;
+}
+.eveee{
+    width: 10%;
+    position: absolute;
+}
+.psyduck{
+    width: 10%;
+    position: absolute;
+}
+.header{
+    display: none;
+    position: absolute;
+    top: 0;
+
+    width: 100vw;
+    
+}
+.h5{
+
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+h5{
+    color: orange;
+    text-shadow: 0 0 20px white;
+    font-size: 15em;
+}
+
+footer{
+    padding-bottom:10px ;
+    width: 100%;
+    display: none;
+    justify-content: center;
+    position: fixed;
+    bottom:0px;
+    
+}
+.Counter{
+    display: flex;
+    justify-content: center;
+    height: 4vh;
+    background-color: aliceblue;
+    width: 6%;
+    
+}
+.ParapgraphPoints,.ParapgraphPoints1,.ParapgraphPoints2{
+    font-size: 2em;
+}
+.pokemonCounter1,.pokemonCounter2{
+    width: 30%;
+}
