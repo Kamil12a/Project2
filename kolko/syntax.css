@@ -2,6 +2,20 @@
     margin: 0px;
     padding: 0px;
 }
+.returnDiv{
+    display: none;
+    z-index: 100;
+    position: absolute;
+    top: 5;
+    padding-left:10px ;
+    
+}
+.return{
+    text-decoration: none;
+    font-size: 2.5em;
+    color: orange;
+    text-shadow: 0 0 20px white;
+}
 header{
     text-align: center;
 }
@@ -21,7 +35,7 @@ body{
 .startButton{
     background-color:transparent;
     border: none;
-    font-size: 5em;
+    font-size: 6em;
     color: orange;
     font-weight: bold;
     text-shadow: 0 0 10px white;
@@ -118,23 +132,23 @@ header{
 h1{
     color: orange;
     text-shadow: 0 0 10px white;
-    font-size: 4em;
+    font-size: 5em;
 
 }
 .pikachu{
-    width: 10%;
+    width: 13%;
     position: absolute;
 }
 .bullbasaur{
-    width: 10%;
+    width: 13%;
     position: absolute;
 }
 .eveee{
-    width: 10%;
+    width: 13%;
     position: absolute;
 }
 .psyduck{
-    width: 10%;
+    width: 13%;
     position: absolute;
 }
 .header{
@@ -180,3 +194,63 @@ footer{
 .pokemonCounter1,.pokemonCounter2{
     width: 30%;
 }
+.statistick{
+    position: absolute;
+    left: 20px;
+    top:20px;
+}
+h6{font-size: 3em;
+    color: orange;
+    text-shadow: 0 0 10px white;
+}
+
+.hamburger{
+    position: absolute;
+    top:20px;
+    left: 20px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.hamburger_inner{
+    font-size: 3em;
+    color: orange;
+    text-shadow: 10 10 10px white;
+}
+.aside{
+    transform: translateX(-100%) ;
+    background-color: orange;
+    position: absolute;
+    height: 100vh;
+    width: 250px;
+    display: grid;
+    
+}
+.hamburger--active{
+    transform: translateX(250px)
+}
+.aside--active{
+    transform: translateX(0px)
+}
+.stat{
+    text-align: center;
+    display: grid;
+}
+.stat1, .stat2,.stat3,.stat4{
+    font-size: 3em;
+}
+.statPikachu{
+    width: 180px;
+}
+.statBullbasaur{
+    width: 180px;
+}
+.statEveee{
+    width: 180px;
+}
+.statPsyduck{
+    width: 180px;
+}
+
+

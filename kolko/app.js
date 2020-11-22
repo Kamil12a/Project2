@@ -25,6 +25,7 @@ let drawPoint=0;
 Ppoint1.innerText=Point1.toString()
 Ppoint2.innerText=Point2.toString()
 
+const returnn = document.querySelector('.returnDiv')
 
 
 function sortNumbers(a, b) {
@@ -238,6 +239,12 @@ let TopTransform =5
 const footer=document.querySelector('footer')
 const pokemonCounter1=document.querySelector(".pokemonCounter1")
 const pokemonCounter2=document.querySelector(".pokemonCounter2")
+let transp=0;
+const TwoPoke = document.querySelector(".Poke")
+const Player1=document.querySelector("#pokemonPlayer1")
+const Player2=document.querySelector("#pokemonPlayer2")
+const article = document.querySelector("article");
+const header = document.querySelector(".header")
 
 pokemon.addEventListener('click',event =>{
     if (choosen===0){
@@ -254,6 +261,7 @@ pokemon.addEventListener('click',event =>{
         
     }
     if(choosen===1){
+        returnn.style.display="block"
         PlayerSecound=event.target;
         iconchoose.style.display="none"
         main.style.display="flex"
@@ -284,12 +292,3 @@ pokemon.addEventListener('click',event =>{
     
     
 })
-let transp=0;
-const TwoPoke = document.querySelector(".Poke")
-const Player1=document.querySelector("#pokemonPlayer1")
-const Player2=document.querySelector("#pokemonPlayer2")
-const article = document.querySelector("article");
-const header = document.querySelector(".header")
-
-
-
