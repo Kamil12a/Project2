@@ -1,0 +1,28 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    
+    box-sizing: border-box;
+}
+
+
+.PikachuPosistion{
+    display: flex;
+    justify-content: center;
+}
+.pikachu{
+    
+    position: absolute;
+    bottom: 110px;
+    
+}
+main{
+    background:url("background.jpg") no-repeat;
+    width: 100%;
+    background-size: 100%;
+    height: 100vh;
+    background-position: center;
+    
+}
