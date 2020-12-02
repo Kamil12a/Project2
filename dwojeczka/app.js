@@ -27,6 +27,19 @@ window.addEventListener('keydown', event => {
     
 })
 
+//nie zatrzymuje poprawnie blyskawic, problem z setIntervalem
+function falling(object,moveY){
+    Interval=setInterval(function(){
+        object.style.transform="translateY("+moveY.toString()+"px)"
+        moveY=moveY+10;
+        if(moveY>500){
+            clearInterval(Interval)
+        }
+        
+    },200)
+    
+    
+}
 function move_flow(){
    
     setTimeout(function(){
@@ -35,25 +48,34 @@ function move_flow(){
     },100)
     
 }
+//tutaj zaczyna sie problem, 
+//blyskawice ida
+let numberOfFood=0
 let fallingDownNumber=0;
-function addFood(img){
+function addFood(){
     foodPosition=Math.floor(Math.random()*window.innerWidth);
     
     var foodImage= document.createElement('img')
     foodImage.src="lighting.png"
+    foodImage.setAttribute("id","foodfalling"+numberOfFood.toString())
+    
     foodImage.style.width="200px"
     foodImage.style.position="absolute"
-    foodImage.style.top="0"
+    setTimeout(function(){
+        document.getElementById("foodfalling"+numberOfFood.toString()).style.top="0";
+        numberOfFood++;
+    },1)
+    
+    // document.getElementById("foodfalling0").style.top="0"
     foodImage.style.right= foodPosition.toString()+"px";
     var body = document.querySelector('body');
     body.appendChild(foodImage);
-    setInterval(function(){
-        foodImage.style.transform="translateY("+fallingDownNumber.toString()+"px)"
-        fallingDownNumber++;
-    },6)
+    
+    falling(document.getElementById("foodfalling"+numberOfFood.toString()),0)
+    
         
 }
 setInterval(function(){
-    var foodImage1 = document.createElement('img') //Tutaj ma sie losowac foodIMage1 foodIMage2 ....
-    addFood(foodImage1);
-},500)
+    addFood();
+    console.log(numberOfFood)
+},5000)
