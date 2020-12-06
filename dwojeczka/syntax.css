@@ -7,6 +7,16 @@ body{
     box-sizing: border-box;
 }
 
+header{
+    display: flex;
+    align-items: center;
+    position: absolute;
+    z-index: 10;
+    top: 0;
+}
+header>*{
+    padding: 10px;
+}
 
 .PikachuPosistion{
     display: flex;
@@ -19,6 +29,8 @@ body{
     
 }
 main{
+    position: relative;
+    top: 0;
     background:url("background.jpg") no-repeat;
     width: 100%;
     background-size: 100%;

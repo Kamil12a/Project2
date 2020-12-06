@@ -1,44 +1,45 @@
 const pikachu = document.querySelector(".pikachu")
 const body = document.querySelector("body")
 let move=0;
-setInterval(function(){
-    window_width=window.innerWidth;
-    limit=window.innerWidth/2;
-},1)
+window_width=window.innerWidth;
+limit=window.innerWidth/2;
 
 
+window.addEventListener('resize', () => { limit = window.innerWidth/2})
 
 window.addEventListener('keydown', event => {
     if(event.code==='ArrowLeft'&&move-80>-limit){
         
-        move=move-8;
+        move=move-13;
         pikachu.style.transform="translateX("+move.toString()+"px)"
-        move=move-8;
+        move=move-13;
         move_flow()
         
     }
     if(event.code==='ArrowRight'&&move+80<limit){
         
-        move=move+8;
+        move=move+13;
         pikachu.style.transform="translateX("+move.toString()+"px)"
-        move=move+8;
+        move=move+13;
         move_flow()
     }
     
 })
-
-//nie zatrzymuje poprawnie blyskawic, problem z setIntervalem
+let i=0;
+var Stoper=[]
 function falling(object,moveY){
     Interval=setInterval(function(){
         object.style.transform="translateY("+moveY.toString()+"px)"
         moveY=moveY+10;
-        if(moveY>500){
-            clearInterval(Interval)
-        }
         
-    },200)
+    },50)
+    Stoper.push(Interval)
     
-    
+    setTimeout(function(){
+        clearInterval(Stoper[i]) 
+        
+        i++;
+    },3000)
 }
 function move_flow(){
    
@@ -53,17 +54,24 @@ function move_flow(){
 let numberOfFood=0
 let fallingDownNumber=0;
 function addFood(){
+    
     foodPosition=Math.floor(Math.random()*window.innerWidth);
     
     var foodImage= document.createElement('img')
     foodImage.src="lighting.png"
     foodImage.setAttribute("id","foodfalling"+numberOfFood.toString())
     
-    foodImage.style.width="200px"
+    foodImage.style.width="300px"
     foodImage.style.position="absolute"
     setTimeout(function(){
         document.getElementById("foodfalling"+numberOfFood.toString()).style.top="0";
+        
         numberOfFood++;
+       
+
+        
+        
+
     },1)
     
     // document.getElementById("foodfalling0").style.top="0"
@@ -75,7 +83,44 @@ function addFood(){
     
         
 }
+
+lightingPositionY=[];
+lightingPositionX=[];
 setInterval(function(){
     addFood();
-    console.log(numberOfFood)
-},5000)
+    
+    
+    lightingPositionX.push(document.getElementById("foodfalling"+(numberOfFood).toString()).style.right)
+    lightingPositionY.push(document.getElementById("foodfalling"+(numberOfFood).toString()))
+    
+    
+
+    
+    
+},3000)
+let points=0
+
+PointsChanger=document.querySelector("#points")
+
+setInterval(function(){
+    let pikachuPosition=pikachu.style.transform;
+    console.log(lightingPositionY[numberOfFood-1].style.transform.substring(11,14))
+    // console.log(Math.abs(parseInt(lightingPositionX[numberOfFood-1])+parseInt(pikachuPosition.substring(11,16))-parseInt(limit)+120))
+    if(Math.abs(parseInt(lightingPositionX[numberOfFood-1])+parseInt(pikachuPosition.substring(11,16))-parseInt(limit)+120)<75&&lightingPositionY[numberOfFood-1].style.transform.substring(11,14)>540){
+        let opacity=1
+        points=points+100
+        document.getElementById("foodfalling"+(numberOfFood-1).toString()).src="check.png"
+        document.getElementById("foodfalling"+(numberOfFood-1).toString()).style.width="150px"
+        PointsChanger.innerText=points.toString();
+        setTimeout(function(){
+
+            document.getElementById("foodfalling"+(numberOfFood-2).toString()).style.display="none"
+        },200)
+       
+        
+       
+    }
+    else{
+        console.log("PRZEGRALES")
+    }   
+},15)
