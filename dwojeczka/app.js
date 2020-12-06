@@ -124,3 +124,11 @@ setInterval(function(){
         console.log("PRZEGRALES")
     }   
 },15)
+
+ai = setInterval
+a2= setInterval
+
+function runner(){
+    return setInterval(function(){},1000);
+}
+
