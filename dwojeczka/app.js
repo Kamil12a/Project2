@@ -35,24 +35,24 @@ permissionLeft=true;
 const handleKeyDown=event => {
     if(event.code==='ArrowLeft'&&permissionLeft){
         left = true;
-        permissionRight=true
     }
     if(event.code==='ArrowRight'&&permissionRight){
         right = true
-        permissionLeft=true
     }
 }
 function positionChecker(){
-    if(pikachu.getBoundingClientRect().x>1200){
+    if(pikachu.getBoundingClientRect().x>window.innerWidth*0.8785){
         right=false
         permissionRight=false;
-        
-        
+        permissionLeft=true;
     }
-    if(pikachu.getBoundingClientRect().x<50){
+
+        
+    
+    if(pikachu.getBoundingClientRect().x<window.innerWidth*0.005){
         left=false
         permissionLeft=false;
-        
+        permissionRight=true;
     }
     
     
@@ -77,10 +77,14 @@ const update = () => {
 update();
 window.addEventListener('keyup',event=>{
     if(event.code==='ArrowLeft'){
-        left = false;}
+        left = false;
+        permissionRight=true
+
+    }
     if(event.code==='ArrowRight'){
         right = false
-        console.log(pikachu.getBoundingClientRect().x)
+        permissionLeft=true
+        
     }
 })
 
@@ -117,7 +121,7 @@ function addPoints(){
 
 addingfood=setInterval(function(){
     addFood()
-},1500)
+},1200)
 function checker(object){
     if(Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)<100&&object.className!="bomb"){
         
