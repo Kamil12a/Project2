@@ -129,14 +129,14 @@ function checker(object){
         addPoints();
         
     }
-    else if(Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)<100&&object.className==="bomb"){
+    
+    else if(Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)<100&&object.className==="bomb"||Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)>100&&object.className!="bomb"){
         lose.innerText="PRZEGRALES"
         clearInterval(game)
         clearInterval(addingfood)
         window.removeEventListener("keydown",handleKeyDown)
-        
-        
     }
+    
 }
 
 const updateElement = (element, elementName) => {
