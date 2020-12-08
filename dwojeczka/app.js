@@ -63,8 +63,9 @@ setInterval(function(){
     addFood()
 },1500)
 function checker(object){
-    if(Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)<100&&object.getBoundingClientRect().y>488  ){
-        console.log("fajno")
+    if(Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)<100){
+        
+        
         addPoints();
         
     }
@@ -72,46 +73,53 @@ function checker(object){
 setInterval(function(){
     
         if(bomb.id==="active"){
-            checker(bomb);
+            
             bomb.style.transform="translateY("+ BombFallingNumber.toString()+"px"
             BombFallingNumber=BombFallingNumber+4;
             if(BombFallingNumber>heightLimit){
+                checker(bomb);
                 bomb.setAttribute("id","none")
                 BombFallingNumber=0;
                 bomb.style.transform="translateY(0px)"
                 bomb.style.display="none"
                 objectToFall.push("bomb")
+                
             }
     }
     if(lighting.id==="active"){
-        checker(lighting)
+        
         lighting.style.transform="translateY("+ LightingFallingNumber.toString()+"px"
         LightingFallingNumber=LightingFallingNumber+4;
         if(LightingFallingNumber>heightLimit){
+            checker(lighting)
             lighting.setAttribute("id","none")
             LightingFallingNumber=0;
             lighting.style.transform="translateY(0px)"
             lighting.style.display="none"
             objectToFall.push("lighting")
+            
         }
 }
     if(pokeball.id==="active"){
-        checker(pokeball)
+        
         pokeball.style.transform="translateY("+ PokeballFallingNumber.toString()+"px"
         PokeballFallingNumber=PokeballFallingNumber+4;
         if(PokeballFallingNumber>heightLimit){
+            checker(pokeball)
             pokeball.setAttribute("id","none")
             PokeballFallingNumber=0;
             pokeball.style.transform="translateY(0px)"
             pokeball.style.display="none"
             objectToFall.push("pokeball")
+            
         }
     }
     if(mew.id==="active"){
-        checker(mew)
+        
         mew.style.transform="translateY("+ MewFallingNumber.toString()+"px"
         MewFallingNumber=MewFallingNumber+4;
         if(MewFallingNumber>heightLimit){
+            checker(mew)
             mew.setAttribute("id","none")
             MewFallingNumber=0;
             mew.style.transform="translateY(0px)"
@@ -120,20 +128,22 @@ setInterval(function(){
         }
 }
     if(berry.id==="active"){
-        checker(berry)
+        
         berry.style.transform="translateY("+ BerryFallingNumber.toString()+"px"
         BerryFallingNumber=BerryFallingNumber+4;
         if(BerryFallingNumber>heightLimit){
+            checker(berry)
             berry.setAttribute("id","none")
             BerryFallingNumber=0;
             berry.style.transform="translateY(0px)"
             berry.style.display="none"
             objectToFall.push("berry")
+            
         }
     }
-
     
-    
+   
+   
 },15)
 
 
