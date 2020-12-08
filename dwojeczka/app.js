@@ -9,6 +9,10 @@ const berry = document.querySelector(".berry")
 const lose = document.querySelector(".LoseInformation")
 const fallingNumbers = {
     bomb: 0,
+    lighting:0,
+    pokeball:0,
+    mew:0,
+    berry:0,
 }
 let BombFallingNumber = 0;
 let LightingFallingNumber = 0;
@@ -25,22 +29,41 @@ const HtmlPoints=document.querySelector(".points")
 let left = false;
 let right = false;
 let gameOver = false;
+permissionRight=true;
+permissionLeft=true;
+
 const handleKeyDown=event => {
-    if(event.code==='ArrowLeft'&&move-80>-limit){
+    if(event.code==='ArrowLeft'&&permissionLeft){
         left = true;
+        permissionRight=true
     }
-    if(event.code==='ArrowRight'&&move+80<limit){
+    if(event.code==='ArrowRight'&&permissionRight){
         right = true
+        permissionLeft=true
     }
 }
-
+function positionChecker(){
+    if(pikachu.getBoundingClientRect().x>1200){
+        right=false
+        permissionRight=false;
+        
+        
+    }
+    if(pikachu.getBoundingClientRect().x<50){
+        left=false
+        permissionLeft=false;
+        
+    }
+    
+    
+}
 var lastUpdateTime = Date.now();
 const update = () => {
     const now = Date.now();
     const dTime = now - lastUpdateTime;
     // console.log(dTime)
-    const direction = left && right ? 0 : left ? -1 : 1;
-    console.log(direction)
+    const direction = left && right ? 0 : right ? 1 : !right&&!left ? 0 : left ? -1 : 1 ; 
+    
     move = move + direction * dTime /1;
     pikachu.style.transform="translateX("+move.toString()+"px)"
 
@@ -52,7 +75,14 @@ const update = () => {
 }
 
 update();
-
+window.addEventListener('keyup',event=>{
+    if(event.code==='ArrowLeft'){
+        left = false;}
+    if(event.code==='ArrowRight'){
+        right = false
+        console.log(pikachu.getBoundingClientRect().x)
+    }
+})
 
 
 movePikachu=window.addEventListener('keydown', handleKeyDown )
@@ -139,66 +169,66 @@ game=setInterval(function(){
             // }
     }
     if(lighting.id==="active"){
-        
-        lighting.style.transform="translateY("+ LightingFallingNumber.toString()+"px"
-        LightingFallingNumber=LightingFallingNumber+4;
-        if(LightingFallingNumber>heightLimit){
-            checker(lighting)
-            lighting.setAttribute("id","none")
-            LightingFallingNumber=0;
-            lighting.style.transform="translateY(0px)"
-            lighting.style.display="none"
-            objectToFall.push("lighting")
+        updateElement(lighting, 'lighting');
+        // lighting.style.transform="translateY("+ LightingFallingNumber.toString()+"px"
+        // LightingFallingNumber=LightingFallingNumber+4;
+        // if(LightingFallingNumber>heightLimit){
+        //     checker(lighting)
+        //     lighting.setAttribute("id","none")
+        //     LightingFallingNumber=0;
+        //     lighting.style.transform="translateY(0px)"
+        //     lighting.style.display="none"
+        //     objectToFall.push("lighting")
             
-        }
+        // }
 }
     if(pokeball.id==="active"){
-        
-        pokeball.style.transform="translateY("+ PokeballFallingNumber.toString()+"px"
-        PokeballFallingNumber=PokeballFallingNumber+4;
-        if(PokeballFallingNumber>heightLimit){
-            checker(pokeball)
-            pokeball.setAttribute("id","none")
-            PokeballFallingNumber=0;
-            pokeball.style.transform="translateY(0px)"
-            pokeball.style.display="none"
-            objectToFall.push("pokeball")
+        updateElement(pokeball, 'pokeball');
+    //     pokeball.style.transform="translateY("+ PokeballFallingNumber.toString()+"px"
+    //     PokeballFallingNumber=PokeballFallingNumber+4;
+    //     if(PokeballFallingNumber>heightLimit){
+    //         checker(pokeball)
+    //         pokeball.setAttribute("id","none")
+    //         PokeballFallingNumber=0;
+    //         pokeball.style.transform="translateY(0px)"
+    //         pokeball.style.display="none"
+    //         objectToFall.push("pokeball")
             
-        }
+    //     }
     }
     if(mew.id==="active"){
-        
-        mew.style.transform="translateY("+ MewFallingNumber.toString()+"px"
-        MewFallingNumber=MewFallingNumber+4;
-        if(MewFallingNumber>heightLimit){
-            checker(mew)
-            mew.setAttribute("id","none")
-            MewFallingNumber=0;
-            mew.style.transform="translateY(0px)"
-            mew.style.display="none"
-            objectToFall.push("mew")
-        }
+        updateElement(mew, 'mew');
+//         mew.style.transform="translateY("+ MewFallingNumber.toString()+"px"
+//         MewFallingNumber=MewFallingNumber+4;
+//         if(MewFallingNumber>heightLimit){
+//             checker(mew)
+//             mew.setAttribute("id","none")
+//             MewFallingNumber=0;
+//             mew.style.transform="translateY(0px)"
+//             mew.style.display="none"
+//             objectToFall.push("mew")
+//         }
 }
     if(berry.id==="active"){
-        
-        berry.style.transform="translateY("+ BerryFallingNumber.toString()+"px"
-        BerryFallingNumber=BerryFallingNumber+4;
-        if(BerryFallingNumber>heightLimit){
-            checker(berry)
-            berry.setAttribute("id","none")
-            BerryFallingNumber=0;
-            berry.style.transform="translateY(0px)"
-            berry.style.display="none"
-            objectToFall.push("berry")
+        updateElement(berry, 'berry');
+        // berry.style.transform="translateY("+ BerryFallingNumber.toString()+"px"
+        // BerryFallingNumber=BerryFallingNumber+4;
+        // if(BerryFallingNumber>heightLimit){
+        //     checker(berry)
+        //     berry.setAttribute("id","none")
+        //     BerryFallingNumber=0;
+        //     berry.style.transform="translateY(0px)"
+        //     berry.style.display="none"
+        //     objectToFall.push("berry")
             
-        }
+        // }
     }
-    
-   
+    positionChecker()
+  
    
 },15)
 
-
+//1 sposob
 // var intervals = []
 
 // for(let i = 0; i < 10; i += 1) {
@@ -210,6 +240,7 @@ game=setInterval(function(){
 //     intervals.forEach(i => clearInterval(i));
 // }
 
+//2 sposob  
 // var fruitIntervals = {}
 
 // for (let i = 0; i < 10; i += 1) {
