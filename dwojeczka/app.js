@@ -1,134 +1,142 @@
 const pikachu = document.querySelector(".pikachu")
 const body = document.querySelector("body")
 let move=0;
-window_width=window.innerWidth;
-limit=window.innerWidth/2;
-
-
-window.addEventListener('resize', () => { limit = window.innerWidth/2})
+const pokeball=document.querySelector(".pokeball")
+const lighting=document.querySelector(".lighting")
+const bomb = document.querySelector(".bomb")
+const mew = document.querySelector(".mew")
+const berry = document.querySelector(".berry")
+let BombFallingNumber = 0;
+let LightingFallingNumber = 0;
+let PokeballFallingNumber = 0;
+let MewFallingNumber = 0;
+let BerryFallingNumber = 0;
+let limit=window.innerWidth/2;
+let heightLimit = window.innerHeight*0.67;
+window.addEventListener('resize', () => { limit = window.innerWidth/2,heightLimit=window.innerHeight*0.67})
+let objectToFall=['lighting',"bomb","pokeball","mew","berry"]
+let Points=0
+const HtmlPoints=document.querySelector(".points")
 
 window.addEventListener('keydown', event => {
     if(event.code==='ArrowLeft'&&move-80>-limit){
-        
         move=move-13;
         pikachu.style.transform="translateX("+move.toString()+"px)"
-        move=move-13;
-        move_flow()
-        
+        move=move-13; 
     }
     if(event.code==='ArrowRight'&&move+80<limit){
-        
         move=move+13;
         pikachu.style.transform="translateX("+move.toString()+"px)"
         move=move+13;
-        move_flow()
     }
     
 })
-let i=0;
-var Stoper=[]
-function falling(object,moveY){
-    Interval=setInterval(function(){
-        object.style.transform="translateY("+moveY.toString()+"px)"
-        moveY=moveY+10;
-        
-    },50)
-    Stoper.push(Interval)
-    
-    setTimeout(function(){
-        clearInterval(Stoper[i]) 
-        
-        i++;
-    },3000)
+
+
+randomObjectToFall =() => {
+    return objectToFall[Math.abs(Math.round(Math.random() * objectToFall.length - 1))];
 }
-function move_flow(){
-   
-    setTimeout(function(){
-        pikachu.style.transform="translateX("+move.toString()+"px)"
-        
-    },100)
-    
+randomRightPosition =() =>{
+    width=window.innerWidth-200
+    return  ((Math.random() * width)  +100).toString()+"px"
 }
-//tutaj zaczyna sie problem, 
-//blyskawice ida
-let numberOfFood=0
-let fallingDownNumber=0;
+
 function addFood(){
+    let randomObject=randomObjectToFall()
+    objectToFall=objectToFall.filter(a=>a!=randomObject)
+    foodImage=document.querySelector("."+randomObject.toString())
+    foodImage.style.right=randomRightPosition()
+    foodImage.setAttribute("id","active")
+    foodImage.style.display="block"
     
-    foodPosition=Math.floor(Math.random()*window.innerWidth);
     
-    var foodImage= document.createElement('img')
-    foodImage.src="lighting.png"
-    foodImage.setAttribute("id","foodfalling"+numberOfFood.toString())
     
-    foodImage.style.width="300px"
-    foodImage.style.position="absolute"
-    setTimeout(function(){
-        document.getElementById("foodfalling"+numberOfFood.toString()).style.top="0";
-        
-        numberOfFood++;
-       
-
-        
-        
-
-    },1)
     
-    // document.getElementById("foodfalling0").style.top="0"
-    foodImage.style.right= foodPosition.toString()+"px";
-    var body = document.querySelector('body');
-    body.appendChild(foodImage);
+}
+function addPoints(){
+    Points=Points+10;
+    HtmlPoints.innerText= Points.toString()
     
-    falling(document.getElementById("foodfalling"+numberOfFood.toString()),0)
-    
-        
 }
 
-lightingPositionY=[];
-lightingPositionX=[];
 setInterval(function(){
-    addFood();
-    
-    
-    lightingPositionX.push(document.getElementById("foodfalling"+(numberOfFood).toString()).style.right)
-    lightingPositionY.push(document.getElementById("foodfalling"+(numberOfFood).toString()))
-    
-    
-
-    
-    
-},3000)
-let points=0
-
-PointsChanger=document.querySelector("#points")
-
-setInterval(function(){
-    let pikachuPosition=pikachu.style.transform;
-    console.log(lightingPositionY[numberOfFood-1].style.transform.substring(11,14))
-    // console.log(Math.abs(parseInt(lightingPositionX[numberOfFood-1])+parseInt(pikachuPosition.substring(11,16))-parseInt(limit)+120))
-    if(Math.abs(parseInt(lightingPositionX[numberOfFood-1])+parseInt(pikachuPosition.substring(11,16))-parseInt(limit)+120)<75&&lightingPositionY[numberOfFood-1].style.transform.substring(11,14)>540){
-        let opacity=1
-        points=points+100
-        document.getElementById("foodfalling"+(numberOfFood-1).toString()).src="check.png"
-        document.getElementById("foodfalling"+(numberOfFood-1).toString()).style.width="150px"
-        PointsChanger.innerText=points.toString();
-        setTimeout(function(){
-
-            document.getElementById("foodfalling"+(numberOfFood-2).toString()).style.display="none"
-        },200)
-       
+    addFood()
+},1500)
+function checker(object){
+    if(Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)<100&&object.getBoundingClientRect().y>488  ){
+        console.log("fajno")
+        addPoints();
         
-       
     }
-    else{
-        console.log("PRZEGRALES")
-    }   
+}
+setInterval(function(){
+    
+        if(bomb.id==="active"){
+            checker(bomb);
+            bomb.style.transform="translateY("+ BombFallingNumber.toString()+"px"
+            BombFallingNumber=BombFallingNumber+4;
+            if(BombFallingNumber>heightLimit){
+                bomb.setAttribute("id","none")
+                BombFallingNumber=0;
+                bomb.style.transform="translateY(0px)"
+                bomb.style.display="none"
+                objectToFall.push("bomb")
+            }
+    }
+    if(lighting.id==="active"){
+        checker(lighting)
+        lighting.style.transform="translateY("+ LightingFallingNumber.toString()+"px"
+        LightingFallingNumber=LightingFallingNumber+4;
+        if(LightingFallingNumber>heightLimit){
+            lighting.setAttribute("id","none")
+            LightingFallingNumber=0;
+            lighting.style.transform="translateY(0px)"
+            lighting.style.display="none"
+            objectToFall.push("lighting")
+        }
+}
+    if(pokeball.id==="active"){
+        checker(pokeball)
+        pokeball.style.transform="translateY("+ PokeballFallingNumber.toString()+"px"
+        PokeballFallingNumber=PokeballFallingNumber+4;
+        if(PokeballFallingNumber>heightLimit){
+            pokeball.setAttribute("id","none")
+            PokeballFallingNumber=0;
+            pokeball.style.transform="translateY(0px)"
+            pokeball.style.display="none"
+            objectToFall.push("pokeball")
+        }
+    }
+    if(mew.id==="active"){
+        checker(mew)
+        mew.style.transform="translateY("+ MewFallingNumber.toString()+"px"
+        MewFallingNumber=MewFallingNumber+4;
+        if(MewFallingNumber>heightLimit){
+            mew.setAttribute("id","none")
+            MewFallingNumber=0;
+            mew.style.transform="translateY(0px)"
+            mew.style.display="none"
+            objectToFall.push("mew")
+        }
+}
+    if(berry.id==="active"){
+        checker(berry)
+        berry.style.transform="translateY("+ BerryFallingNumber.toString()+"px"
+        BerryFallingNumber=BerryFallingNumber+4;
+        if(BerryFallingNumber>heightLimit){
+            berry.setAttribute("id","none")
+            BerryFallingNumber=0;
+            berry.style.transform="translateY(0px)"
+            berry.style.display="none"
+            objectToFall.push("berry")
+        }
+    }
+
+    
+    
 },15)
 
-ai = setInterval
-a2= setInterval
 
-function runner(){
-    return setInterval(function(){},1000);
-}
+
+
 
