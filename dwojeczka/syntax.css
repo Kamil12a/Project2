@@ -109,3 +109,12 @@ main{
 .points{
     font-size: 2em;
 }
+.Lose{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.LoseInformation{
+    font-size:5em
+}

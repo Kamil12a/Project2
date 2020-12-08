@@ -6,6 +6,10 @@ const lighting=document.querySelector(".lighting")
 const bomb = document.querySelector(".bomb")
 const mew = document.querySelector(".mew")
 const berry = document.querySelector(".berry")
+const lose = document.querySelector(".LoseInformation")
+const fallingNumbers = {
+    bomb: 0,
+}
 let BombFallingNumber = 0;
 let LightingFallingNumber = 0;
 let PokeballFallingNumber = 0;
@@ -18,19 +22,41 @@ let objectToFall=['lighting',"bomb","pokeball","mew","berry"]
 let Points=0
 const HtmlPoints=document.querySelector(".points")
 
-window.addEventListener('keydown', event => {
+let left = false;
+let right = false;
+let gameOver = false;
+const handleKeyDown=event => {
     if(event.code==='ArrowLeft'&&move-80>-limit){
-        move=move-13;
-        pikachu.style.transform="translateX("+move.toString()+"px)"
-        move=move-13; 
+        left = true;
     }
     if(event.code==='ArrowRight'&&move+80<limit){
-        move=move+13;
-        pikachu.style.transform="translateX("+move.toString()+"px)"
-        move=move+13;
+        right = true
     }
-    
-})
+}
+
+var lastUpdateTime = Date.now();
+const update = () => {
+    const now = Date.now();
+    const dTime = now - lastUpdateTime;
+    // console.log(dTime)
+    const direction = left && right ? 0 : left ? -1 : 1;
+    console.log(direction)
+    move = move + direction * dTime /1;
+    pikachu.style.transform="translateX("+move.toString()+"px)"
+
+    lastUpdateTime = now;
+    if (gameOver) {
+        return;
+    }
+    requestAnimationFrame(update);
+}
+
+update();
+
+
+
+movePikachu=window.addEventListener('keydown', handleKeyDown )
+
 
 
 randomObjectToFall =() => {
@@ -59,32 +85,58 @@ function addPoints(){
     
 }
 
-setInterval(function(){
+addingfood=setInterval(function(){
     addFood()
 },1500)
 function checker(object){
-    if(Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)<100){
+    if(Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)<100&&object.className!="bomb"){
         
         
         addPoints();
         
     }
+    else if(Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)<100&&object.className==="bomb"){
+        lose.innerText="PRZEGRALES"
+        clearInterval(game)
+        clearInterval(addingfood)
+        window.removeEventListener("keydown",handleKeyDown)
+        
+        
+    }
 }
-setInterval(function(){
-    
-        if(bomb.id==="active"){
-            
-            bomb.style.transform="translateY("+ BombFallingNumber.toString()+"px"
-            BombFallingNumber=BombFallingNumber+4;
-            if(BombFallingNumber>heightLimit){
-                checker(bomb);
-                bomb.setAttribute("id","none")
-                BombFallingNumber=0;
-                bomb.style.transform="translateY(0px)"
-                bomb.style.display="none"
-                objectToFall.push("bomb")
+
+const updateElement = (element, elementName) => {
+    const number = fallingNumbers[elementName]
+    element.style.transform="translateY("+ number.toString()+"px"
+            fallingNumbers[elementName] = number+4;
+            if(number>heightLimit){
+                checker(element);
+                element.setAttribute("id","none")
+                fallingNumbers[elementName]=0;
+                element.style.transform="translateY(0px)"
+                element.style.display="none"
+                objectToFall.push(elementName)
                 
             }
+}
+
+game=setInterval(function(){
+    
+        if(bomb.id==="active"){
+
+            updateElement(bomb, 'bomb');
+            
+            // bomb.style.transform="translateY("+ BombFallingNumber.toString()+"px"
+            // BombFallingNumber=BombFallingNumber+4;
+            // if(BombFallingNumber>heightLimit){
+            //     checker(bomb);
+            //     bomb.setAttribute("id","none")
+            //     BombFallingNumber=0;
+            //     bomb.style.transform="translateY(0px)"
+            //     bomb.style.display="none"
+            //     objectToFall.push("bomb")
+                
+            // }
     }
     if(lighting.id==="active"){
         
@@ -147,6 +199,25 @@ setInterval(function(){
 },15)
 
 
+// var intervals = []
 
+// for(let i = 0; i < 10; i += 1) {
+//     const intervalId = setInterval(() => console.log(i), 1000);
+//     intervals.push(intervalId)
+// }
 
+// function clearAll() {
+//     intervals.forEach(i => clearInterval(i));
+// }
 
+// var fruitIntervals = {}
+
+// for (let i = 0; i < 10; i += 1) {
+//     const intervalId = setInterval(() => console.log(i), 1000);
+//     fruitIntervals[`fruit-${i}`] = intervalId;
+// }
+
+// function clearFruit(fruitId) {
+//     clearInterval(fruitIntervals[fruitId]);
+//     delete fruitIntervals[fruitId];
+// }
