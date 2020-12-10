@@ -7,6 +7,40 @@ const bomb = document.querySelector(".bomb")
 const mew = document.querySelector(".mew")
 const berry = document.querySelector(".berry")
 const lose = document.querySelector(".LoseInformation")
+const timer = document.querySelector(".time")
+const volumechanger = document.querySelector("#volumechanger")
+volume=["unmute","mute"]
+volNumb=1
+volumechanger.addEventListener('click',e=>{
+    volumechanger.classList=volume[volNumb%2]
+    volNumb++
+    
+})
+let time=0;
+audioL = new Audio("audio1.mp4")
+audioB = new Audio("audio2.mp4")
+audioP = new Audio("audio3.mp4")
+audioM = new Audio("audio4.mp4")
+audioBerry = new Audio("audio4.mp4")
+sound=[audioL,audioP,audioM,audioBerry]
+
+pokemonsong = new Audio("pokemonsong.mp3")
+pokemonsong.autoplay="false"
+pokemonsong.muted=true
+pokemonsong.addEventListener("canplaythrough", event => {
+    pokemonsong.muted=false
+    pokemonsong.volume=0.3
+    event.play()
+    
+  });
+    
+
+
+timeCounter =setInterval(function(){
+    time++
+    timer.innerText= "Time: "+time.toString();
+},1000)
+
 const fallingNumbers = {
     bomb: 0,
     lighting:0,
@@ -31,6 +65,13 @@ let right = false;
 let gameOver = false;
 permissionRight=true;
 permissionLeft=true;
+const VisableOfButton=document.querySelector(".OneMoreTime")
+const buttonPlay=document.querySelector("button")
+buttonPlay.addEventListener('click',event=>{
+    location.reload();
+    
+
+})
 
 const handleKeyDown=event => {
     if(event.code==='ArrowLeft'&&permissionLeft){
@@ -41,7 +82,7 @@ const handleKeyDown=event => {
     }
 }
 function positionChecker(){
-    if(pikachu.getBoundingClientRect().x>window.innerWidth*0.8785){
+    if(pikachu.getBoundingClientRect().x>window.innerWidth-200){
         right=false
         permissionRight=false;
         permissionLeft=true;
@@ -116,25 +157,50 @@ function addFood(){
 function addPoints(){
     Points=Points+10;
     HtmlPoints.innerText= Points.toString()
-    
 }
+
 
 addingfood=setInterval(function(){
     addFood()
 },1200)
+
 function checker(object){
-    if(Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)<100&&object.className!="bomb"){
+    if(Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)<125&&object.className!="bomb"){
         
         
         addPoints();
+        console.log(object.style.transform)
+       
+        object.setAttribute("id","none")
+        object.style.transform="translateY(0px)"
+        object.style.display="none"
+        objectToFall.push(object.className)
+        fallingNumbers[object.className.toString()]=0
+        console.log("now")
+        
+        if(object===lighting){
+            sound[Math.floor(Math.random()*3)].play();
+        }
+        
+         
+        
         
     }
     
-    else if(Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)<100&&object.className==="bomb"||Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)>100&&object.className!="bomb"){
+    else if(Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)<125&&object.className==="bomb"||Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)>100&&object.className!="bomb"&&parseInt(object.style.transform.slice(11,14))>window.innerHeight*0.78){
         lose.innerText="PRZEGRALES"
         clearInterval(game)
         clearInterval(addingfood)
         window.removeEventListener("keydown",handleKeyDown)
+        VisableOfButton.style.display="block"
+        gameOver=true
+        clearInterval(timeCounter)
+        audioB.play()
+        pokemonsong.pause();
+        
+        
+       
+        
     }
     
 }
@@ -145,12 +211,13 @@ const updateElement = (element, elementName) => {
             fallingNumbers[elementName] = number+4;
             if(number>heightLimit){
                 checker(element);
+            }
+            if(number>window.innerHeight*0.8){
                 element.setAttribute("id","none")
                 fallingNumbers[elementName]=0;
                 element.style.transform="translateY(0px)"
                 element.style.display="none"
                 objectToFall.push(elementName)
-                
             }
 }
 
@@ -228,9 +295,11 @@ game=setInterval(function(){
         // }
     }
     positionChecker()
-  
+    
    
 },15)
+
+
 
 //1 sposob
 // var intervals = []
