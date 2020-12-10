@@ -105,7 +105,7 @@ const update = () => {
     // console.log(dTime)
     const direction = left && right ? 0 : right ? 1 : !right&&!left ? 0 : left ? -1 : 1 ; 
     
-    move = move + direction * dTime /1;
+    move = move + direction * dTime*window.innerWidth/2000 ;
     pikachu.style.transform="translateX("+move.toString()+"px)"
 
     lastUpdateTime = now;
