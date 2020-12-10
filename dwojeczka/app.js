@@ -165,7 +165,7 @@ addingfood=setInterval(function(){
 },1200)
 
 function checker(object){
-    if(Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)<125&&object.className!="bomb"){
+    if(Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)<115&&object.className!="bomb"){
         
         
         addPoints();
@@ -187,7 +187,7 @@ function checker(object){
         
     }
     
-    else if(Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)<125&&object.className==="bomb"||Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)>100&&object.className!="bomb"&&parseInt(object.style.transform.slice(11,14))>window.innerHeight*0.78){
+    else if(Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)<115&&object.className==="bomb"||Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)>115&&object.className!="bomb"&&parseInt(object.style.transform.slice(11,14))>window.innerHeight*0.78){
         lose.innerText="PRZEGRALES"
         clearInterval(game)
         clearInterval(addingfood)
