@@ -129,7 +129,7 @@ const handleKeyDown=event => {
         clearInterval(TimeCounter)
         pauseInfo.innerText="Kliknij s aby grac"
         Spaceplay=true
-        Splay=false        
+        Splay=false     
     }
     if(event.code==='KeyS'&& Splay===false){
         game();
@@ -163,8 +163,14 @@ const update = () => {
     const now = Date.now();
     const dTime = now - lastUpdateTime;
     // console.log(dTime)
-    const direction = left && right ? 0 : right ? 1 : !right&&!left ? 0 : left ? -1 : 1 ; 
-    
+    let direction = left && right ? 0 : right ? 1 : !right&&!left ? 0 : left ? -1 : 1 ; 
+    if(Spaceplay===true){
+        direction=0
+    }
+    if(Spaceplay===false){
+        direction=left && right ? 0 : right ? 1 : !right&&!left ? 0 : left ? -1 : 1 
+    }
+
     move = move + direction * dTime*window.innerWidth/1900 ;
     pikachu.style.transform="translateX("+move.toString()+"px)"
 
