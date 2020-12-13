@@ -6,25 +6,15 @@ const lighting=document.querySelector(".lighting")
 const bomb = document.querySelector(".bomb")
 const mew = document.querySelector(".mew")
 const berry = document.querySelector(".berry")
+const foodarray=[bomb,pokeball,lighting,berry,mew]
 const lose = document.querySelector(".LoseInformation")
 const timer = document.querySelector(".time")
 const volumechanger = document.querySelector("#volumechanger")
-form=document.querySelector("form")
-username = document.querySelector(".username")
-submitt=document.querySelector('.checkbox')
-
-submitt.addEventListener('click',e=>{
-    localStorage.setItem(username.value,Points.toString())
-    form.style.display="none"
-})
-
-volume=["unmute","mute"]
-volNumb=1
-volumechanger.addEventListener('click',e=>{
-    volumechanger.classList=volume[volNumb%2]
-    volNumb++
-    
-})
+const allContent= document.querySelector('.all')
+const startB= document.querySelector(".startbutton")
+const start= document.querySelector(".start")
+const pauseInfo=document.querySelector(".pauseInfo")
+const pokemonsong=new Audio("pokemonsong.mp3")
 let time=0;
 audioL = new Audio("audio1.mp4")
 audioB = new Audio("audio2.mp4")
@@ -32,29 +22,10 @@ audioP = new Audio("audio3.mp4")
 audioM = new Audio("audio4.mp4")
 audioBerry = new Audio("audio4.mp4")
 sound=[audioL,audioP,audioM,audioBerry]
-
 audioL.volume=0.1
 audioP.volume=0.1
 audioM.volume=0.1
 audioBerry.volume=0.1
-
-pokemonsong = new Audio("pokemonsong.mp3")
-pokemonsong.autoplay="false"
-pokemonsong.muted=true
-pokemonsong.addEventListener("canplaythrough", event => {
-    pokemonsong.muted=false
-    pokemonsong.volume=0.1
-    event.play()
-    
-  });
-
-
-
-timeCounter =setInterval(function(){
-    time++
-    timer.innerText= "Time: "+time.toString();
-},1000)
-
 const fallingNumbers = {
     bomb: 0,
     lighting:0,
@@ -69,7 +40,6 @@ let MewFallingNumber = 0;
 let BerryFallingNumber = 0;
 let limit=window.innerWidth/2;
 let heightLimit = window.innerHeight*0.67;
-window.addEventListener('resize', () => { limit = window.innerWidth/2,heightLimit=window.innerHeight*0.67})
 let objectToFall=['lighting',"bomb","pokeball","mew","berry"]
 let Points=0
 const HtmlPoints=document.querySelector(".points")
@@ -81,18 +51,88 @@ permissionRight=true;
 permissionLeft=true;
 const VisableOfButton=document.querySelector(".OneMoreTime")
 const buttonPlay=document.querySelector(".buttonPlay")
-buttonPlay.addEventListener('click',event=>{
-    location.reload();
-    
 
+
+
+
+
+
+function removeObjects(){
+    for( const i in foodarray){
+        foodarray[i].id="none"
+        foodarray[i].style=""
+    }
+    objectToFall=['lighting',"bomb","pokeball","mew","berry"]
+    fallingNumbers['lighting']=0
+    fallingNumbers['bomb']=0
+    fallingNumbers['pokeball']=0
+    fallingNumbers['mew']=0
+    fallingNumbers['berry']=0
+    Points=0
+    time=0
+    timer.innerText="0"
+    HtmlPoints.innerText= Points.toString()
+}
+startB.addEventListener('click',e=>{
+    allContent.style.display="block"
+    start.style.display="none"
+    timeCounter()
+    game()
+    addingfood()
+    PlaySong()
 })
 
+function PlaySong(){
+    pokemonsong.play()
+    pokemonsong.volume=0.2
+}
+
+volume=["unmute","mute"]
+volNumb=1
+volumechanger.addEventListener('click',e=>{
+    volumechanger.classList=volume[volNumb%2]
+    volNumb++ 
+})
+function timeCounter(){ TimeCounter =setInterval(function(){
+    time++
+    timer.innerText= "Time: "+time.toString();
+},1000)}
+
+
+window.addEventListener('resize', () => { limit = window.innerWidth/2,heightLimit=window.innerHeight*0.67})
+buttonPlay.addEventListener('click',event=>{
+    buttonPlay.style.display="none"
+    lose.style.display="none"
+    timeCounter()
+    game()
+    addingfood()
+    PlaySong()
+
+})
 const handleKeyDown=event => {
     if(event.code==='ArrowLeft'&&permissionLeft){
         left = true;
     }
     if(event.code==='ArrowRight'&&permissionRight){
         right = true
+    }
+    if(event.code==='Space'){
+        clearInterval(Game)
+        clearInterval(Addingfood)
+        clearInterval(TimeCounter)
+    }
+    if(event.code==='Space'){
+        clearInterval(Game)
+        clearInterval(Addingfood)
+        clearInterval(TimeCounter)
+        pauseInfo.innerText="Kliknij s aby grac"
+        
+    }
+    if(event.code==='KeyS'){
+        game();
+        addingfood()
+        timeCounter()
+        pauseInfo.innerText="Kliknij spacje aby zapauzowac"
     }
 }
 function positionChecker(){
@@ -123,9 +163,7 @@ const update = () => {
     pikachu.style.transform="translateX("+move.toString()+"px)"
 
     lastUpdateTime = now;
-    if (gameOver) {
-        return;
-    }
+    
     requestAnimationFrame(update);
 }
 
@@ -163,10 +201,6 @@ function addFood(){
     foodImage.style.right=randomRightPosition()
     foodImage.setAttribute("id","active")
     foodImage.style.display="block"
-    
-    
-    
-    
 }
 function addPoints(){
     Points=Points+10;
@@ -174,9 +208,9 @@ function addPoints(){
 }
 
 
-addingfood=setInterval(function(){
+function addingfood(){ Addingfood=setInterval(function(){
     addFood()
-},1200)
+},1200)}
 
 function checker(object){
     if(Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)<125&&object.className!="bomb"){
@@ -203,20 +237,19 @@ function checker(object){
     
     else if(Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)<125&&object.className==="bomb"||Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)>125&&object.className!="bomb"&&parseInt(object.style.transform.slice(11,14))>window.innerHeight*0.78){
         lose.innerText="PRZEGRALES"
-        clearInterval(game)
-        clearInterval(addingfood)
-        window.removeEventListener("keydown",handleKeyDown)
+        clearInterval(Game)
+        clearInterval(Addingfood)
+        clearInterval(TimeCounter)
+        removeObjects()
+          buttonPlay.style.display="block"
+         lose.style.display="block"
+        // window.removeEventListener("keydown",handleKeyDown)
         VisableOfButton.style.display="block"
         gameOver=true
-        clearInterval(timeCounter)
         audioB.volume=0.2
         audioB.play()
         pokemonsong.pause();
-        form.style.display="block"
-        
-        
-       
-        
+      
     }
     
 }
@@ -236,8 +269,11 @@ const updateElement = (element, elementName) => {
                 objectToFall.push(elementName)
             }
 }
-
-game=setInterval(function(){
+var game
+var addingfood
+var timeCounter
+function game(){ Game=
+    setInterval(function(){
     
         if(bomb.id==="active"){
 
@@ -314,6 +350,7 @@ game=setInterval(function(){
     
    
 },15)
+}
 
 
 

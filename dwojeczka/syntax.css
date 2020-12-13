@@ -268,3 +268,38 @@ form{
     margin-left: 10%;
     display: flex;
 }
+.all{
+    display: none;
+}
+.start{
+    background:url("back.jpg") no-repeat;
+    background-size: cover;
+    
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.startbutton{
+    font-size: 3em;
+    color: #FF0000;
+    text-shadow: 3px 3px 10px #FF0000;
+    background-color: transparent;
+    border:none;
+    outline: none;
+    cursor: grab;
+}
+.pause{
+    color: yellow;
+    text-shadow: 3px 3px 10px #FF0000;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+.pauseInfo{
+    font-size: 2em;
+    z-index: 2;
+    position: absolute;
+    top: 1%;
+}
