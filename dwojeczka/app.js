@@ -109,6 +109,8 @@ buttonPlay.addEventListener('click',event=>{
     PlaySong()
 
 })
+let Spaceplay=false
+let Splay=true
 const handleKeyDown=event => {
     if(event.code==='ArrowLeft'&&permissionLeft){
         left = true;
@@ -121,18 +123,21 @@ const handleKeyDown=event => {
         clearInterval(Addingfood)
         clearInterval(TimeCounter)
     }
-    if(event.code==='Space'){
+    if(event.code==='Space'&&Spaceplay===false){
         clearInterval(Game)
         clearInterval(Addingfood)
         clearInterval(TimeCounter)
         pauseInfo.innerText="Kliknij s aby grac"
-        
+        Spaceplay=true
+        Splay=false
     }
-    if(event.code==='KeyS'){
+    if(event.code==='KeyS'&& Splay===false){
         game();
         addingfood()
         timeCounter()
         pauseInfo.innerText="Kliknij spacje aby zapauzowac"
+        Splay=true
+        Spaceplay=false
     }
 }
 function positionChecker(){
