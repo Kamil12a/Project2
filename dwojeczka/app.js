@@ -9,6 +9,15 @@ const berry = document.querySelector(".berry")
 const lose = document.querySelector(".LoseInformation")
 const timer = document.querySelector(".time")
 const volumechanger = document.querySelector("#volumechanger")
+form=document.querySelector("form")
+username = document.querySelector(".username")
+submitt=document.querySelector('.checkbox')
+
+submitt.addEventListener('click',e=>{
+    localStorage.setItem(username.value,Points.toString())
+    form.style.display="none"
+})
+
 volume=["unmute","mute"]
 volNumb=1
 volumechanger.addEventListener('click',e=>{
@@ -24,16 +33,21 @@ audioM = new Audio("audio4.mp4")
 audioBerry = new Audio("audio4.mp4")
 sound=[audioL,audioP,audioM,audioBerry]
 
+audioL.volume=0.1
+audioP.volume=0.1
+audioM.volume=0.1
+audioBerry.volume=0.1
+
 pokemonsong = new Audio("pokemonsong.mp3")
 pokemonsong.autoplay="false"
 pokemonsong.muted=true
 pokemonsong.addEventListener("canplaythrough", event => {
     pokemonsong.muted=false
-    pokemonsong.volume=0.3
+    pokemonsong.volume=0.1
     event.play()
     
   });
-    
+
 
 
 timeCounter =setInterval(function(){
@@ -66,7 +80,7 @@ let gameOver = false;
 permissionRight=true;
 permissionLeft=true;
 const VisableOfButton=document.querySelector(".OneMoreTime")
-const buttonPlay=document.querySelector("button")
+const buttonPlay=document.querySelector(".buttonPlay")
 buttonPlay.addEventListener('click',event=>{
     location.reload();
     
@@ -105,7 +119,7 @@ const update = () => {
     // console.log(dTime)
     const direction = left && right ? 0 : right ? 1 : !right&&!left ? 0 : left ? -1 : 1 ; 
     
-    move = move + direction * dTime*window.innerWidth/2000 ;
+    move = move + direction * dTime*window.innerWidth/1900 ;
     pikachu.style.transform="translateX("+move.toString()+"px)"
 
     lastUpdateTime = now;
@@ -165,7 +179,7 @@ addingfood=setInterval(function(){
 },1200)
 
 function checker(object){
-    if(Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)<115&&object.className!="bomb"){
+    if(Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)<125&&object.className!="bomb"){
         
         
         addPoints();
@@ -187,7 +201,7 @@ function checker(object){
         
     }
     
-    else if(Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)<115&&object.className==="bomb"||Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)>115&&object.className!="bomb"&&parseInt(object.style.transform.slice(11,14))>window.innerHeight*0.78){
+    else if(Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)<125&&object.className==="bomb"||Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)>125&&object.className!="bomb"&&parseInt(object.style.transform.slice(11,14))>window.innerHeight*0.78){
         lose.innerText="PRZEGRALES"
         clearInterval(game)
         clearInterval(addingfood)
@@ -195,8 +209,10 @@ function checker(object){
         VisableOfButton.style.display="block"
         gameOver=true
         clearInterval(timeCounter)
+        audioB.volume=0.2
         audioB.play()
         pokemonsong.pause();
+        form.style.display="block"
         
         
        
