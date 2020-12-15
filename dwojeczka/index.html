@@ -5,6 +5,26 @@
     <meta name="viewport" content="width=, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="syntax.css" />
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-firestore.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyBwXARyaJp93Bsr3l5P6K9lx3zbD02d6Ss",
+        authDomain: "pikachu-822c0.firebaseapp.com",
+        projectId: "pikachu-822c0",
+        storageBucket: "pikachu-822c0.appspot.com",
+        messagingSenderId: "411463756154",
+        appId: "1:411463756154:web:bac9e9c19e844dc51dcec3"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    </script>
 </head>
 
 <body>
@@ -34,6 +54,7 @@
             </figure>
             <div class="Lose">
                 <h1 class="LoseInformation"></h1>
+                <p class="pointsInformation"></p>
             </div>
             
         </main>
@@ -51,7 +72,7 @@
     <form name="formname" onsubmit="return false">
         
         <input placeholder="username" class="username" type="text">
-            <input class="checkbox"type="submit" >
+            <input class="submit"type="submit" >
     </form>
     <div class="ranking">
         <figure class="podium">

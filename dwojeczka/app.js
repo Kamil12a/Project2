@@ -15,17 +15,20 @@ const startB= document.querySelector(".startbutton")
 const start= document.querySelector(".start")
 const pauseInfo=document.querySelector(".pauseInfo")
 const pokemonsong=new Audio("pokemonsong.mp3")
+const form=document.querySelector('form')
+const pointsInformation=document.querySelector(".pointsInformation")
 let time=0;
+let gameover=0
 audioL = new Audio("audio1.mp4")
 audioB = new Audio("audio2.mp4")
 audioP = new Audio("audio3.mp4")
 audioM = new Audio("audio4.mp4")
 audioBerry = new Audio("audio4.mp4")
 sound=[audioL,audioP,audioM,audioBerry]
-audioL.volume=0.1
-audioP.volume=0.1
-audioM.volume=0.1
-audioBerry.volume=0.1
+audioL.volume=0.3
+audioP.volume=0.3
+audioM.volume=0.3
+audioBerry.volume=0.3
 const fallingNumbers = {
     bomb: 0,
     lighting:0,
@@ -51,12 +54,23 @@ permissionRight=true;
 permissionLeft=true;
 const VisableOfButton=document.querySelector(".OneMoreTime")
 const buttonPlay=document.querySelector(".buttonPlay")
+const showrank = document.querySelector(".ranking")
+const showplaces = document.querySelector(".rank")
+function showRecord(){
+    showrank.style.display="flex"
+    showplaces.style.display="flex"
+}
+function showform(){
+    form.style.display="block"
+}
+function hideform(){
+    form.style.display="none"
+}
 
-
-
-
-
-
+function hideRecord(){
+    showrank.style.display="none"
+    showplaces.style.display="none"
+}
 function removeObjects(){
     for( const i in foodarray){
         foodarray[i].id="none"
@@ -68,10 +82,10 @@ function removeObjects(){
     fallingNumbers['pokeball']=0
     fallingNumbers['mew']=0
     fallingNumbers['berry']=0
-    Points=0
+    
     time=0
-    timer.innerText="0"
-    HtmlPoints.innerText= Points.toString()
+    timer.innerText="Time: 0"
+    HtmlPoints.innerText= " "
 }
 startB.addEventListener('click',e=>{
     allContent.style.display="block"
@@ -80,6 +94,7 @@ startB.addEventListener('click',e=>{
     game()
     addingfood()
     PlaySong()
+    
 })
 
 function PlaySong(){
@@ -107,8 +122,14 @@ buttonPlay.addEventListener('click',event=>{
     game()
     addingfood()
     PlaySong()
+    Points=0
+    hideRecord()
+    hideform()
+    pointsInformation.style.display="none"
+    gameover=0
 
 })
+    
 let Spaceplay=false
 let Splay=true
 const handleKeyDown=event => {
@@ -123,7 +144,7 @@ const handleKeyDown=event => {
         clearInterval(Addingfood)
         clearInterval(TimeCounter)
     }
-    if(event.code==='Space'&&Spaceplay===false){
+    if(event.code==='Space'&&Spaceplay===false&&gameover===0){
         clearInterval(Game)
         clearInterval(Addingfood)
         clearInterval(TimeCounter)
@@ -131,13 +152,17 @@ const handleKeyDown=event => {
         Spaceplay=true
         Splay=false     
     }
-    if(event.code==='KeyS'&& Splay===false){
+    if(event.code==='KeyS'&& Splay===false&&gameover===0){
         game();
         addingfood()
         timeCounter()
         pauseInfo.innerText="Kliknij spacje aby zapauzowac"
         Splay=true
         Spaceplay=false
+        hideform()
+        hideRecord()
+        buttonPlay.style.display="none"
+         lose.style.display="none"
        
     }
 }
@@ -217,6 +242,7 @@ function addFood(){
 function addPoints(){
     Points=Points+10;
     HtmlPoints.innerText= Points.toString()
+    pointsInformation.innerText="Super! Masz "+Points.toString()+" punktów"
 }
 
 
@@ -236,17 +262,11 @@ function checker(object){
         object.style.display="none"
         objectToFall.push(object.className)
         fallingNumbers[object.className.toString()]=0
-        console.log("now")
-        
+        console.log("now")  
         if(object===lighting){
             sound[Math.floor(Math.random()*3)].play();
-        }
-        
-         
-        
-        
-    }
-    
+        }   
+    } 
     else if(Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)<125&&object.className==="bomb"||Math.abs(pikachu.getBoundingClientRect().x-object.getBoundingClientRect().x)>125&&object.className!="bomb"&&parseInt(object.style.transform.slice(11,14))>window.innerHeight*0.78){
         lose.innerText="PRZEGRALES"
         clearInterval(Game)
@@ -255,17 +275,17 @@ function checker(object){
         removeObjects()
           buttonPlay.style.display="block"
          lose.style.display="block"
-        // window.removeEventListener("keydown",handleKeyDown)
         VisableOfButton.style.display="block"
         gameOver=true
         audioB.volume=0.2
         audioB.play()
-        pokemonsong.pause();
-      
-    }
-    
+        pokemonsong.pause();  
+        showRecord()
+        showform()
+        pointsInformation.style.display="block"
+        gameover=1
+    } 
 }
-
 const updateElement = (element, elementName) => {
     const number = fallingNumbers[elementName]
     element.style.transform="translateY("+ number.toString()+"px"
@@ -286,81 +306,22 @@ var addingfood
 var timeCounter
 function game(){ Game=
     setInterval(function(){
-    
         if(bomb.id==="active"){
-
-            updateElement(bomb, 'bomb');
-            
-            // bomb.style.transform="translateY("+ BombFallingNumber.toString()+"px"
-            // BombFallingNumber=BombFallingNumber+4;
-            // if(BombFallingNumber>heightLimit){
-            //     checker(bomb);
-            //     bomb.setAttribute("id","none")
-            //     BombFallingNumber=0;
-            //     bomb.style.transform="translateY(0px)"
-            //     bomb.style.display="none"
-            //     objectToFall.push("bomb")
-                
-            // }
+            updateElement(bomb, 'bomb');        
     }
     if(lighting.id==="active"){
         updateElement(lighting, 'lighting');
-        // lighting.style.transform="translateY("+ LightingFallingNumber.toString()+"px"
-        // LightingFallingNumber=LightingFallingNumber+4;
-        // if(LightingFallingNumber>heightLimit){
-        //     checker(lighting)
-        //     lighting.setAttribute("id","none")
-        //     LightingFallingNumber=0;
-        //     lighting.style.transform="translateY(0px)"
-        //     lighting.style.display="none"
-        //     objectToFall.push("lighting")
-            
-        // }
 }
     if(pokeball.id==="active"){
         updateElement(pokeball, 'pokeball');
-    //     pokeball.style.transform="translateY("+ PokeballFallingNumber.toString()+"px"
-    //     PokeballFallingNumber=PokeballFallingNumber+4;
-    //     if(PokeballFallingNumber>heightLimit){
-    //         checker(pokeball)
-    //         pokeball.setAttribute("id","none")
-    //         PokeballFallingNumber=0;
-    //         pokeball.style.transform="translateY(0px)"
-    //         pokeball.style.display="none"
-    //         objectToFall.push("pokeball")
-            
-    //     }
     }
     if(mew.id==="active"){
         updateElement(mew, 'mew');
-//         mew.style.transform="translateY("+ MewFallingNumber.toString()+"px"
-//         MewFallingNumber=MewFallingNumber+4;
-//         if(MewFallingNumber>heightLimit){
-//             checker(mew)
-//             mew.setAttribute("id","none")
-//             MewFallingNumber=0;
-//             mew.style.transform="translateY(0px)"
-//             mew.style.display="none"
-//             objectToFall.push("mew")
-//         }
-}
+    }
     if(berry.id==="active"){
         updateElement(berry, 'berry');
-        // berry.style.transform="translateY("+ BerryFallingNumber.toString()+"px"
-        // BerryFallingNumber=BerryFallingNumber+4;
-        // if(BerryFallingNumber>heightLimit){
-        //     checker(berry)
-        //     berry.setAttribute("id","none")
-        //     BerryFallingNumber=0;
-        //     berry.style.transform="translateY(0px)"
-        //     berry.style.display="none"
-        //     objectToFall.push("berry")
-            
-        // }
     }
-    positionChecker()
-    
-   
+    positionChecker()  
 },15)
 }
 
@@ -390,3 +351,79 @@ function game(){ Game=
 //     clearInterval(fruitIntervals[fruitId]);
 //     delete fruitIntervals[fruitId];
 // }
+let rankObject = {};
+const username=document.querySelector('.username')
+form.addEventListener('submit',e=>{
+    firebase.firestore().collection('ranking').add({
+        username:username.value,
+        points:Points.toString()
+        
+    })
+    setTimeout(function(){
+        firebase.firestore().collection('ranking').onSnapshot((ranking) => render(ranking));
+        setTimeout(function(){
+            renderPlaces()
+            hideform()
+        },500)
+    },500)
+    
+    
+    
+})
+
+firebase.firestore().collection('ranking').onSnapshot((ranking) => render(ranking));
+
+function render(ranking) {
+	
+
+	
+    ranking.forEach((ranking) => {
+        const username = ranking.data().username;
+        const points = ranking.data().points;
+        rankObject[username]=points
+    }
+
+)}
+const Rank1=document.querySelector(".Rank1")
+const Rank2=document.querySelector(".Rank2")
+const Rank3=document.querySelector(".Rank3")
+function renderPlaces(){
+    let firstPlace=0
+    let secoundPlace=0
+    let thirdPlace=0
+    // let secoundPlace=rankObject[Object.keys(rankObject)[0]]
+    // let thirdPlace=rankObject[Object.keys(rankObject)[0]]
+    let firstName=""
+    let secoundName=""
+    let thirdName=""
+    
+    
+        for(key2=0;key2<Object.keys(rankObject).length;key2++){
+            for(key=0;key<Object.keys(rankObject).length;key++){
+                let keyfirst=parseInt(rankObject[Object.keys(rankObject)[key]])
+                if(firstPlace<keyfirst){
+                    firstPlace=keyfirst
+                    firstName=Object.keys(rankObject)[key]
+                }
+                if(secoundPlace<keyfirst&&keyfirst!=firstPlace){
+                    secoundPlace=keyfirst
+                    secoundName=Object.keys(rankObject)[key]
+                }
+                if(thirdPlace<keyfirst&&keyfirst!=firstPlace&&keyfirst!=secoundPlace){
+                    thirdPlace=keyfirst
+                    thirdName=Object.keys(rankObject)[key]
+                }
+               
+            }
+                
+        }
+        
+        Rank1.innerText=firstName+":"+firstPlace
+        Rank2.innerText=secoundName+":"+secoundPlace
+        Rank3.innerText=thirdName+":"+thirdPlace
+   
+}
+setTimeout(function(){
+    renderPlaces()
+},1000)
+
