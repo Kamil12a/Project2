@@ -94,6 +94,7 @@ startB.addEventListener('click',e=>{
     game()
     addingfood()
     PlaySong()
+    pauseInfo.style.display="block"
     
 })
 
@@ -240,7 +241,7 @@ function addFood(){
     foodImage.style.display="block"
 }
 function addPoints(){
-    Points=Points+1000000;
+    Points=Points+10;
     HtmlPoints.innerText= Points.toString()
     pointsInformation.innerText="Super! Masz "+Points.toString()+" punktów"
 }

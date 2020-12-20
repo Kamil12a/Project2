@@ -283,6 +283,7 @@ form{
     justify-content: center;
 }
 .pauseInfo{
+    display: none;
     font-size: 2em;
     z-index: 2;
     position: absolute;
