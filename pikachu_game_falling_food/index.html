@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="syntax.css" />
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-firestore.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyBwXARyaJp93Bsr3l5P6K9lx3zbD02d6Ss",
+        authDomain: "pikachu-822c0.firebaseapp.com",
+        projectId: "pikachu-822c0",
+        storageBucket: "pikachu-822c0.appspot.com",
+        messagingSenderId: "411463756154",
+        appId: "1:411463756154:web:bac9e9c19e844dc51dcec3"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    </script>
+</head>
+
+<body>
+    <div class="start">
+        <button class="startbutton">Rozpocznij grę</button>
+    </div>
+    <div class="pause">
+        <h2 class="pauseInfo">Kliknij spacje aby zapauzować</h2>
+    </div>
+    <div class="all">
+
+   
+        
+        <!-- <iframe width="0" height="0" src="zambro.mp4" frameborder="0" allowfullscreen></iframe> -->
+        <div class="berry" id="none"></div>
+        <div class="mew" id="none"></div>
+        <div class="lighting" id="none"></div>
+        <div class="bomb" id="none"></div>
+        <div class="pokeball" id="none"></div>
+        <header>
+            <h1 class="Ppoints">POINTS:</h1>
+            <p class="points"></p>
+        </header>
+        <main>
+            <figure class="PikachuPosistion" >
+                <img class="pikachu" src="pikachu-standing.gif" alt="pikachu-standing">
+            </figure>
+            <div class="Lose">
+                <h1 class="LoseInformation"></h1>
+                <p class="pointsInformation"></p>
+            </div>
+            
+        </main>
+    <div class="OneMoreTime">
+        <div class="buttonPossition"> 
+            <button class="buttonPlay"> Zagraj jeszcze raz!</button>
+        </div>
+    </div>
+    <div class="volume">
+        <button id="volumechanger" class="unmute" ></button>
+    </div>
+    <div class="timer">
+            <p class="time">Time:</p>
+    </div>
+    <form name="formname" onsubmit="return false">
+        
+        <input placeholder="username" class="username" type="text">
+            <input class="submit"type="submit" >
+    </form>
+    <div class="ranking">
+        <figure class="podium">
+
+        </figure>
+        
+    </div>
+    <div class="rank">
+        <div class="places">
+           
+            <p class="Rank1">Kamil:50</p>
+            <p class="Rank2">Kamil:50</p>
+            <p class="Rank3">Kamil:50</p>
+
+        </div>
+        
+
+    </div>
+   
+    </div>
+    <script src="app.js"></script>
+    
+</body>
+</html> 
