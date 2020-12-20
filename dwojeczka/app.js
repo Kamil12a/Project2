@@ -240,7 +240,7 @@ function addFood(){
     foodImage.style.display="block"
 }
 function addPoints(){
-    Points=Points+10;
+    Points=Points+1000000;
     HtmlPoints.innerText= Points.toString()
     pointsInformation.innerText="Super! Masz "+Points.toString()+" punktów"
 }
@@ -418,9 +418,9 @@ function renderPlaces(){
                 
         }
         
-        Rank1.innerText=firstName+":"+firstPlace
-        Rank2.innerText=secoundName+":"+secoundPlace
-        Rank3.innerText=thirdName+":"+thirdPlace
+        Rank1.innerText="1. "+firstName+":"+firstPlace
+        Rank2.innerText="2. "+secoundName+":"+secoundPlace
+        Rank3.innerText="3. "+thirdName+":"+thirdPlace
    
 }
 setTimeout(function(){
