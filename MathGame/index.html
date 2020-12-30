@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MatgGame</title>
+    <link rel="stylesheet" href="syntax.css" />
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyCwcNN3EcGsNmjnZMy39rBmSCXQjzXK_i0",
+        authDomain: "mathgame-79b35.firebaseapp.com",
+        projectId: "mathgame-79b35",
+        storageBucket: "mathgame-79b35.appspot.com",
+        messagingSenderId: "988674560653",
+        appId: "1:988674560653:web:bce49a6c9eeede0d80c8c4"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+</script>
+</head>
+<body>
+
+        <header>
+            <button class="Ranking">Ranking</button>
+            <li class="List-Log-Sign">
+                <button class="SignUp">Sign up</button>
+                <button class="LogIn">Log in</button>
+            </li>
+            <button class="LogOut">Log out</button>
+        </header>
+    <div class="modal modal--hidden">
+        <form class="modal__form" data-form-credentials>
+            <button class="modal__button-close" data-button-close type="button" aria-label="Close form"><span
+                aria-hidden="true">&times;</span></button>
+            <label for="" class="modal__label">Enter email:</label>
+            <input id="email"type="email" class="modal__input"></input>
+            <label for=""class="modal__label">Enter password:</label>
+            <input id="password" type="password" class="modal__input" ></input>
+            <input type="submit" class="modal__button-submit" data-button-submit>  
+        </form>
+    </div>
+    
+    <div class="CenterInfo">
+        <h1>Zaloguj się</h1>
+    </div>
+    <main>
+        <div class="PlayerNumberOne">
+            <button class="buttonPlayerOne">Kliknij aby wejść na pozycję</button>
+            </div>
+            <div class="PlayerNumberTwo">
+                <button class="buttonPlayerTwo">Kliknij aby wejść na pozycję</button>
+            </div>
+    </main>
+    
+<script src="app.js"></script>
+</body>
+</html>

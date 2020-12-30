@@ -1,0 +1,126 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{box-sizing: border-box;}
+
+header{
+    height: 4vh;
+    background-color: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.List-Log-Sign{
+    margin-right: 10px;
+    
+    
+}
+.List-Log-Sign>*{
+    margin-right: 10px;
+    font-size:1.2em;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+}
+.Ranking{
+    margin-left: 10px;
+    font-size:1.2em;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    color: white;
+}
+.CenterInfo{
+    justify-content: center;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+}
+.modal{
+    height: 90vh;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+.modal__form{
+    height: 250px;
+    width: 400px;
+    border: 1px solid gray;
+    border-radius: 50px;
+    background-color: gray;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    flex-direction: column;   
+}
+
+.modal__form>*{
+    font-size: 1em;
+
+    position: relative;
+    bottom:15px;
+    margin-bottom:10px;
+    display: block;
+}
+.modal__button-close{
+    position: relative;
+    left:  160px;
+    font-size: 40px;
+    bottom: 10px;
+	border: none;
+    background-color: transparent;
+    outline: none;
+    cursor: pointer;
+}
+.modal__button-submit{
+    width: 120px;
+    font-size: 1em;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid white;
+    border-radius: 10px;
+    outline: none;
+    margin-top: 40px;
+}
+.buttonPlayerOne{
+    cursor: pointer;
+    height: 90vh;
+    width: 50vw;
+    font-size: 1.2em;
+    border: none;
+    background:transparent;
+    border-right: 5px solid red;
+    outline: none;
+    
+}
+.buttonPlayerTwo{
+    cursor: pointer;
+    height: 90vh;
+    width: 50vw;
+    font-size: 1.2em;
+    border: none;
+    background:transparent;
+    outline: none;
+    
+    
+}
+main{
+    display: none;
+    height: 90vh;
+    justify-content: space-around;
+    align-items: center;
+}
+.LogOut{
+    display: none;
+    margin-right: 10px;
+    font-size:1.2em;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+}
