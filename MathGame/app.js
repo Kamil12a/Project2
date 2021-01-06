@@ -127,6 +127,7 @@ setInterval(function(){
     if(PlayerOneReady===true&&PlayerTwoReady===true){
         showScore()
         PlayerOneReady=false
+        getRandom()
         MathResult.push(randomNumbers[0]+randomNumbers[1],randomNumbers[2]+randomNumbers[3],randomNumbers[4]+randomNumbers[5],randomNumbers[6]+randomNumbers[7],randomNumbers[8]+randomNumbers[9])
     }
 },15)
@@ -175,10 +176,10 @@ Numbers.forEach(function(item,index) {
         })
 });
 
-firebase.firestore().collection("Numbers").get().then((snapshot)=>
+function getRandom(){firebase.firestore().collection("Numbers").get().then((snapshot)=>
 {
     snapshot.docs.forEach(doc=>{
         randomNumbers.push(parseInt(Object.values(doc.data())))
        
     })
-})
+})}
