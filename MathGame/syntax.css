@@ -88,25 +88,18 @@ header{
 }
 .buttonPlayerOne{
     cursor: pointer;
-    height: 90vh;
-    width: 50vw;
     font-size: 1.2em;
     border: none;
     background:transparent;
-    border-right: 5px solid red;
     outline: none;
     
 }
 .buttonPlayerTwo{
     cursor: pointer;
-    height: 90vh;
-    width: 50vw;
     font-size: 1.2em;
     border: none;
     background:transparent;
     outline: none;
-    
-    
 }
 main{
     display: none;
@@ -123,4 +116,28 @@ main{
     background-color: transparent;
     color: white;
     cursor: pointer;
+}
+.PlayerNumberOne,.PlayerNumberTwo{
+    text-align: center;
+    
+}
+.PlayerNumberOne>*,.PlayerNumberTwo>*{
+    padding: 4px;
+}
+.submit,.submit2,.score1,.score2,.recomendation,.recomendation2,.action,.action2{
+    display: none;
+}
+.submit,.submit2{
+    margin-top: 10px;
+    margin-left: 25%;
+}
+.lane{
+    display: none;
+    position: absolute;
+    top: 0;
+    margin-top: 4vh;
+    margin-left: 50%;
+    height: 90vh;
+    width: 1%;
+    background-color: rebeccapurple;
 }
