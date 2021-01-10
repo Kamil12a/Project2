@@ -123,7 +123,7 @@ buttonPlayerNumberTwo.addEventListener('click',e=>{
 
 
 //funkcja buttonaone
-function firebaseOneReady() {firebase.firestore().collection('buttonOne').doc("SYgf9TX9P139xVWMeoyu").set({
+function firebaseOneReady() {intervalFirebaseOne=SetInterval(function(){ firebase.firestore().collection('buttonOne').doc("SYgf9TX9P139xVWMeoyu").set({
     ready:true
 }).then(function(){
    
@@ -139,26 +139,29 @@ function firebaseOneReady() {firebase.firestore().collection('buttonOne').doc("S
 }).catch(function(){
 
  console.log("Document unsuccessfully written!");
+},15)
 })}
 
 
-function firebaseTwoReady() {firebase.firestore().collection('buttonTwo').doc("l07Kdsa5jGr5RZtGgdST").set({
-    ready:true
-}).then(function(){
-
-    firebase.firestore().collection('buttonTwo').doc("SrH9QOTxol9TvQegvCoj").set({
-        User:firebase.auth().currentUser.uid
+function firebaseTwoReady() {intervalFirebaseTwo=SetInterval(function(){
+    firebase.firestore().collection('buttonTwo').doc("l07Kdsa5jGr5RZtGgdST").set({
+        ready:true
     }).then(function(){
-        
-                    console.log("Document successfully written!");
-                }).catch(function(){
-                
-                    console.log("Document unsuccessfully written!");
-                })
-}).catch(function(){
-
- console.log("Document unsuccessfully written!");
-})}
+    
+        firebase.firestore().collection('buttonTwo').doc("SrH9QOTxol9TvQegvCoj").set({
+            User:firebase.auth().currentUser.uid
+        }).then(function(){
+            
+                        console.log("Document successfully written!");
+                    }).catch(function(){
+                    
+                        console.log("Document unsuccessfully written!");
+                    })
+    }).catch(function(){
+    
+     console.log("Document unsuccessfully written!");
+    })
+},15)}
 
 
 
@@ -174,7 +177,8 @@ firebase.firestore().collection("buttonTwo").doc("l07Kdsa5jGr5RZtGgdST")
     });
 //
 function ReturnFirebase(){
-
+    clearInterval(intervalFirebaseOne)
+    clearInterval(intervalFirebaseTwo)
 
 firebase.firestore().collection('buttonTwo').doc("l07Kdsa5jGr5RZtGgdST").set({
     ready:false
