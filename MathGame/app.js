@@ -176,6 +176,8 @@ firebase.firestore().collection("buttonTwo").doc("l07Kdsa5jGr5RZtGgdST")
        }
     });
 //
+let intervalFirebaseOne
+let intervalFirebaseTwo
 function ReturnFirebase(){
     clearInterval(intervalFirebaseOne)
     clearInterval(intervalFirebaseTwo)
