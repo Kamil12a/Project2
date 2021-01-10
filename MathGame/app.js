@@ -15,6 +15,8 @@ const action2=document.querySelector(".action2")
 const recomendation2=document.querySelector(".recomendation2")
 const submit=document.querySelector(".submit")
 const submit2=document.querySelector(".submit2")
+let intervalFirebaseOne
+let intervalFirebaseTwo
 // 
 
 SignUp.addEventListener("click",e=>{
@@ -50,13 +52,12 @@ LogOutButton.addEventListener('click',e=>{
     mainPlayerPlaces.style.display="none"
     List_Log_Sign.style.display="block"
     LogOutButton.style.display="none"
-    firebse.auth().signOut()
-})
-const logOutUser=()=>{
-    firebse.auth().signOut()
+    firebase.auth().signOut()
     ReturnFirebase()
     
-    
+})
+const logOutUser=()=>{
+    firebse.auth().signOut() 
 }
 function signUpUser() {
     email=document.querySelector("#email")
@@ -117,13 +118,8 @@ buttonPlayerNumberTwo.addEventListener('click',e=>{
 
 
 
-
-
-
-
-
 //funkcja buttonaone
-function firebaseOneReady() {intervalFirebaseOne=SetInterval(function(){ firebase.firestore().collection('buttonOne').doc("SYgf9TX9P139xVWMeoyu").set({
+function firebaseOneReady() {intervalFirebaseOne=setInterval(function(){ firebase.firestore().collection('buttonOne').doc("SYgf9TX9P139xVWMeoyu").set({
     ready:true
 }).then(function(){
    
@@ -143,7 +139,7 @@ function firebaseOneReady() {intervalFirebaseOne=SetInterval(function(){ firebas
 })}
 
 
-function firebaseTwoReady() {intervalFirebaseTwo=SetInterval(function(){
+function firebaseTwoReady() {intervalFirebaseTwo=setInterval(function(){
     firebase.firestore().collection('buttonTwo').doc("l07Kdsa5jGr5RZtGgdST").set({
         ready:true
     }).then(function(){
@@ -176,8 +172,7 @@ firebase.firestore().collection("buttonTwo").doc("l07Kdsa5jGr5RZtGgdST")
        }
     });
 //
-let intervalFirebaseOne
-let intervalFirebaseTwo
+
 function ReturnFirebase(){
     clearInterval(intervalFirebaseOne)
     clearInterval(intervalFirebaseTwo)
