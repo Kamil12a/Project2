@@ -15,6 +15,7 @@ const action2=document.querySelector(".action2")
 const recomendation2=document.querySelector(".recomendation2")
 const submit=document.querySelector(".submit")
 const submit2=document.querySelector(".submit2")
+NumbGenerator=[Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000)]
 let intervalFirebaseOne
 let intervalFirebaseTwo
 // 
@@ -143,7 +144,7 @@ function firebaseTwoReady() {intervalFirebaseTwo=setInterval(function(){
     firebase.firestore().collection('buttonTwo').doc("l07Kdsa5jGr5RZtGgdST").set({
         ready:true
     }).then(function(){
-    
+        generateNumbers()
         firebase.firestore().collection('buttonTwo').doc("SrH9QOTxol9TvQegvCoj").set({
             User:firebase.auth().currentUser.uid
         }).then(function(){
@@ -171,9 +172,19 @@ firebase.firestore().collection("buttonTwo").doc("l07Kdsa5jGr5RZtGgdST")
         }) 
        }
     });
+firebase.firestore().collection("buttonOne").doc("SYgf9TX9P139xVWMeoyu")
+.onSnapshot(function(doc) {
+    if( doc.data().ready){
+    firebase.firestore().collection('buttonOne').doc("7b3elcchZeK7hWo3Q2UW").onSnapshot(function(doc){
+        buttonPlayerNumberOne.innerText=doc.data().User
+    }) 
+    }
+});
 //
 
 function ReturnFirebase(){
+    buttonPlayerNumberOne.innerText="Kliknij aby wejść na pozycję"
+    buttonPlayerNumberTwo.innerText="Kliknij aby wejść na pozycję"
     clearInterval(intervalFirebaseOne)
     clearInterval(intervalFirebaseTwo)
 
@@ -215,3 +226,11 @@ firebase.firestore().collection('buttonOne').doc("SYgf9TX9P139xVWMeoyu").set({
 //
 
 ReturnFirebase()
+function generateNumbers(){
+    for(i=0;i<10;i++){
+        firebase.firestore().collection("Numbers").doc("number"+i.toString()).set({
+            numbers:NumbGenerator[i]
+        })
+    }
+   
+}
