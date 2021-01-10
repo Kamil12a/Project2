@@ -15,7 +15,6 @@ const action2=document.querySelector(".action2")
 const recomendation2=document.querySelector(".recomendation2")
 const submit=document.querySelector(".submit")
 const submit2=document.querySelector(".submit2")
-let ready=false
 // 
 
 SignUp.addEventListener("click",e=>{
@@ -55,6 +54,7 @@ LogOutButton.addEventListener('click',e=>{
 })
 const logOutUser=()=>{
     firebse.auth().signOut()
+    ReturnFirebase()
     
     
 }
@@ -89,146 +89,128 @@ function LogInUser(){
             logOutUser()
         })
 }
+let TwoReady=false;
+let OneReady=false;
+
 buttonPlayerNumberOne=document.querySelector(".buttonPlayerOne")
 buttonPlayerNumberOne.addEventListener('click',e=>{
-    if(ready===false){
-        ready=true
-        firebase.firestore().collection('buttonOne').doc("SYgf9TX9P139xVWMeoyu").set({
-            ready:true
-     
-         }).then(function(){
-             
-                 console.log("Document successfully written!");
-             }).catch(function(){
-             
-                 console.log("Document unsuccessfully written!");
-             })
-        buttonPlayerNumberOne.innerText=`Zajęte przez Ciebie`
+    if(TwoReady===false){
+        OneReady=true;
+       firebaseOneReady()
     }
+   
      
 
-}
-
-
-)
+})
 buttonPlayerNumberTwo=document.querySelector(".buttonPlayerTwo")
 buttonPlayerNumberTwo.addEventListener('click',e=>{  
-
-    if(ready===false){
-        ready=true
-        firebase.firestore().collection('buttonTwo').doc("l07Kdsa5jGr5RZtGgdST").set({
-            ready:true
-     
-         }).then(function(){
-             
-                 console.log("Document successfully written!");
-             }).catch(function(){
-             
-                 console.log("Document unsuccessfully written!");
-             })
-        buttonPlayerNumberTwo.innerText=`Zajęte przez Ciebie`
-    }
-})
-
-
-
-submit.addEventListener('click',e=>{
-    if(firebase.auth().currentUser.uid.toString()===buttonPlayerNumberOne.innerText.slice(13)){
-        if(score1.value===MathResult[ResultMoment].toString()){
-            action.innerText=randomNumbers[MomentInGame].toString()+"+"+randomNumbers[MomentInGame2].toString()
-            action2.innerText=randomNumbers[MomentInGame].toString()+"+"+randomNumbers[MomentInGame2].toString()
-            MomentInGame=MomentInGame+2
-            MomentInGame2=MomentInGame2+2
-            ResultMoment++
-        }
-       
+    if(OneReady===false){
+        TwoReady=false;
+        firebaseTwoReady()
     }
     
-  
-    
-})
-submit2.addEventListener('click',e=>{
-    if(firebase.auth().currentUser.uid.toString()===buttonPlayerNumberTwo.innerText.slice(13)){
-        if(score2.value===MathResult[ResultMoment.toString()]){
-            action.innerText=randomNumbers[MomentInGame].toString()+"+"+randomNumbers[MomentInGame2].toString()
-            action2.innerText=randomNumbers[MomentInGame].toString()+"+"+randomNumbers[MomentInGame2].toString()
-            MomentInGame=MomentInGame+2
-            MomentInGame2=MomentInGame2+2
-            ResultMoment++
-        }
-       
-    }
-})
-// let Numb=[]
-// for(i=0;i<11;i++){
-//     Numb.push("number"+i.toString())
-// }
-// //*dodawanie losowych liczb dla obu gracz
-// Numbers.forEach(function(item,index) {
-//     firebase.firestore().collection('Numbers').doc(Numb[index]).set({
-//         numbers:item
-
-//     }).then(function(){
-        
-//             console.log("Document successfully written!");
-//         }).catch(function(){
-        
-//             console.log("Document unsuccessfully written!");
-//         })
-// });
-
-// function pushrandom(){firebase.firestore().collection("Numbers").get().then((snapshot)=>
-// {
-//     snapshot.docs.forEach(doc=>{
-//         randomNumbers.push(parseInt(Object.values(doc.data())))
-       
-//     })
-// })}
-
-
-
-// firebase.firestore().collection('Players').doc("eDB53s61TsXkF3wiT92o").set({
-//         Player2:ready
- 
-//      }).then(function(){
-         
-//              console.log("Document successfully written!");
-//          }).catch(function(){
-         
-//              console.log("Document unsuccessfully written!");
-//          })
-
-
-
-firebase.firestore().collection('buttonTwo').doc("l07Kdsa5jGr5RZtGgdST").set({
-    ready:false
-
- }).then(function(){
-     
-         console.log("Document successfully written!");
-     }).catch(function(){
-     
-         console.log("Document unsuccessfully written!");
-     })
-firebase.firestore().collection('buttonOne').doc("SYgf9TX9P139xVWMeoyu").set({
-ready:false
-
-}).then(function(){
-    
-        console.log("Document successfully written!");
-    }).catch(function(){
-    
-        console.log("Document unsuccessfully written!");
     })
 
 
 
 
 
-firebase.firestore().collection("buttonTwo").doc("l07Kdsa5jGr5RZtGgdST")
-.onSnapshot(function(doc) {
-    if( doc.data().ready){
-        buttonPlayerNumberTwo.innerText=`Zajęte`
-    }
-});
 
+
+
+
+
+
+
+//funkcja buttonaone
+function firebaseOneReady() {firebase.firestore().collection('buttonOne').doc("SYgf9TX9P139xVWMeoyu").set({
+    ready:true
+}).then(function(){
+   
+    firebase.firestore().collection('buttonOne').doc("7b3elcchZeK7hWo3Q2UW").set({
+        User:firebase.auth().currentUser.uid
+    }).then(function(){
+        
+                    console.log("Document successfully written!");
+                }).catch(function(){
+                
+                    console.log("Document unsuccessfully written!");
+                })
+}).catch(function(){
+
+ console.log("Document unsuccessfully written!");
+})}
+
+
+function firebaseTwoReady() {firebase.firestore().collection('buttonTwo').doc("l07Kdsa5jGr5RZtGgdST").set({
+    ready:true
+}).then(function(){
+
+    firebase.firestore().collection('buttonTwo').doc("SrH9QOTxol9TvQegvCoj").set({
+        User:firebase.auth().currentUser.uid
+    }).then(function(){
+        
+                    console.log("Document successfully written!");
+                }).catch(function(){
+                
+                    console.log("Document unsuccessfully written!");
+                })
+}).catch(function(){
+
+ console.log("Document unsuccessfully written!");
+})}
+
+
+
+
+//pobieranie buttontwo
+firebase.firestore().collection("buttonTwo").doc("l07Kdsa5jGr5RZtGgdST")
+    .onSnapshot(function(doc) {
+       if( doc.data().ready){
+        firebase.firestore().collection('buttonTwo').doc("SrH9QOTxol9TvQegvCoj").onSnapshot(function(doc){
+            buttonPlayerNumberTwo.innerText=doc.data().User
+        }) 
+       }
+    });
+//
+function ReturnFirebase(){
+
+
+firebase.firestore().collection('buttonTwo').doc("l07Kdsa5jGr5RZtGgdST").set({
+    ready:false
+}).then(function(){
+
+    firebase.firestore().collection('buttonTwo').doc("SrH9QOTxol9TvQegvCoj").set({
+        User:""
+    }).then(function(){
+        
+                    console.log("Document successfully written!");
+                }).catch(function(){
+                
+                    console.log("Document unsuccessfully written!");
+                })
+}).catch(function(){
+
+ console.log("Document unsuccessfully written!");
+})
+
+firebase.firestore().collection('buttonOne').doc("SYgf9TX9P139xVWMeoyu").set({
+    ready:false
+}).then(function(){
+   
+    firebase.firestore().collection('buttonOne').doc("7b3elcchZeK7hWo3Q2UW").set({
+        User:" "
+    }).then(function(){
+        
+                    console.log("Document successfully written!");
+                }).catch(function(){
+                
+                    console.log("Document unsuccessfully written!");
+                })
+}).catch(function(){
+
+ console.log("Document unsuccessfully written!");
+})}
+//
+
+ReturnFirebase()
