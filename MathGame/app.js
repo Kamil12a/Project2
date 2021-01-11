@@ -54,7 +54,7 @@ LogOutButton.addEventListener('click',e=>{
     List_Log_Sign.style.display="block"
     LogOutButton.style.display="none"
     firebase.auth().signOut()
-    ReturnFirebase()
+    LogOutFromFirebase()
     
 })
 const logOutUser=()=>{
@@ -93,144 +93,93 @@ function LogInUser(){
 }
 let TwoReady=false;
 let OneReady=false;
-
-buttonPlayerNumberOne=document.querySelector(".buttonPlayerOne")
-buttonPlayerNumberOne.addEventListener('click',e=>{
-    if(TwoReady===false){
-        OneReady=true;
-       firebaseOneReady()
-    }
-   
-     
-
-})
-buttonPlayerNumberTwo=document.querySelector(".buttonPlayerTwo")
-buttonPlayerNumberTwo.addEventListener('click',e=>{  
-    if(OneReady===false){
-        TwoReady=false;
-        firebaseTwoReady()
-    }
-    
-    })
-
-
-
-
-
-
-
-//funkcja buttonaone
-function firebaseOneReady() {intervalFirebaseOne=setInterval(function(){ firebase.firestore().collection('buttonOne').doc("SYgf9TX9P139xVWMeoyu").set({
-    ready:true
-}).then(function(){
-   
-    firebase.firestore().collection('buttonOne').doc("7b3elcchZeK7hWo3Q2UW").set({
-        User:firebase.auth().currentUser.uid
-    }).then(function(){
-        
-                    console.log("Document successfully written!");
-                }).catch(function(){
-                
-                    console.log("Document unsuccessfully written!");
-                })
-}).catch(function(){
-
- console.log("Document unsuccessfully written!");
-},15)
-})}
-
-
-function firebaseTwoReady() {intervalFirebaseTwo=setInterval(function(){
-    firebase.firestore().collection('buttonTwo').doc("l07Kdsa5jGr5RZtGgdST").set({
-        ready:true
-    }).then(function(){
-        generateNumbers()
-        firebase.firestore().collection('buttonTwo').doc("SrH9QOTxol9TvQegvCoj").set({
-            User:firebase.auth().currentUser.uid
-        }).then(function(){
-            
-                        console.log("Document successfully written!");
-                    }).catch(function(){
-                    
-                        console.log("Document unsuccessfully written!");
-                    })
-    }).catch(function(){
-    
-     console.log("Document unsuccessfully written!");
-    })
-},15)}
-
-
-
-
-//pobieranie buttontwo
-firebase.firestore().collection("buttonTwo").doc("l07Kdsa5jGr5RZtGgdST")
-    .onSnapshot(function(doc) {
-       if( doc.data().ready){
-        firebase.firestore().collection('buttonTwo').doc("SrH9QOTxol9TvQegvCoj").onSnapshot(function(doc){
-            buttonPlayerNumberTwo.innerText=doc.data().User
-        }) 
-       }
-    });
-firebase.firestore().collection("buttonOne").doc("SYgf9TX9P139xVWMeoyu")
-.onSnapshot(function(doc) {
-    if( doc.data().ready){
-    firebase.firestore().collection('buttonOne').doc("7b3elcchZeK7hWo3Q2UW").onSnapshot(function(doc){
-        buttonPlayerNumberOne.innerText=doc.data().User
-    }) 
-    }
-});
-//
-
-function ReturnFirebase(){
-    buttonPlayerNumberOne.innerText="Kliknij aby wejść na pozycję"
-    buttonPlayerNumberTwo.innerText="Kliknij aby wejść na pozycję"
-    clearInterval(intervalFirebaseOne)
-    clearInterval(intervalFirebaseTwo)
-
-firebase.firestore().collection('buttonTwo').doc("l07Kdsa5jGr5RZtGgdST").set({
-    ready:false
-}).then(function(){
-
-    firebase.firestore().collection('buttonTwo').doc("SrH9QOTxol9TvQegvCoj").set({
-        User:""
-    }).then(function(){
-        
-                    console.log("Document successfully written!");
-                }).catch(function(){
-                
-                    console.log("Document unsuccessfully written!");
-                })
-}).catch(function(){
-
- console.log("Document unsuccessfully written!");
-})
-
-firebase.firestore().collection('buttonOne').doc("SYgf9TX9P139xVWMeoyu").set({
-    ready:false
-}).then(function(){
-   
-    firebase.firestore().collection('buttonOne').doc("7b3elcchZeK7hWo3Q2UW").set({
-        User:" "
-    }).then(function(){
-        
-                    console.log("Document successfully written!");
-                }).catch(function(){
-                
-                    console.log("Document unsuccessfully written!");
-                })
-}).catch(function(){
-
- console.log("Document unsuccessfully written!");
-})}
-//
-
-ReturnFirebase()
 function generateNumbers(){
     for(i=0;i<10;i++){
         firebase.firestore().collection("Numbers").doc("number"+i.toString()).set({
             numbers:NumbGenerator[i]
         })
     }
-   
 }
+generateNumbers()
+window.onunload = function () {
+    LogOutFromFirebase()
+}
+
+buttonPlayerNumberOne=document.querySelector(".buttonPlayerOne")
+buttonPlayerNumberOne.addEventListener('click',e=>{
+    if(TwoReady===false){
+        OneReady=true;
+        functioReadyOne()
+    }
+})
+buttonPlayerNumberTwo=document.querySelector(".buttonPlayerTwo")
+buttonPlayerNumberTwo.addEventListener('click',e=>{  
+    if(OneReady===false){
+        TwoReady=false;
+        functioReadyTwo()
+    }
+    })
+ function   LogOutFromFirebase(){
+     if(OneReady===true){
+        firebase.firestore().collection("buttonOne").doc("SYgf9TX9P139xVWMeoyu").set({
+            ready:false
+        })
+        firebase.firestore().collection("buttonOne").doc("7b3elcchZeK7hWo3Q2UW").set({
+            User:"Zajmij Miejsce"
+        })
+        OneReady=false
+     }
+     if(TwoReady===true){
+        
+            firebase.firestore().collection("buttonTwo").doc("l07Kdsa5jGr5RZtGgdST").set({
+                ready:false
+            })
+            firebase.firestore().collection("buttonTwo").doc("SrH9QOTxol9TvQegvCoj").set({
+                User:"Zajmij miejsce"
+            })
+            TwoReady=false
+     }
+ }
+
+function functioReadyTwo(){
+    TwoReady=true
+    firebase.firestore().collection("buttonTwo").doc("l07Kdsa5jGr5RZtGgdST").set({
+        ready:true
+    })
+    firebase.firestore().collection("buttonTwo").doc("SrH9QOTxol9TvQegvCoj").set({
+        User:firebase.auth().currentUser.uid
+    })
+}
+function functioReadyOne(){
+    OneReady=true
+    firebase.firestore().collection("buttonOne").doc("SYgf9TX9P139xVWMeoyu").set({
+        ready:true
+    })
+    firebase.firestore().collection("buttonOne").doc("7b3elcchZeK7hWo3Q2UW").set({
+        User:firebase.auth().currentUser.uid
+    })
+}
+
+firebase.firestore().collection("buttonOne").doc("SYgf9TX9P139xVWMeoyu")
+.onSnapshot(function(doc) {
+    if(doc.data().ready===true){
+     firebase.firestore().collection("buttonOne").doc("7b3elcchZeK7hWo3Q2UW").onSnapshot(function(doc) {
+            buttonPlayerNumberOne.innerText=doc.data().User
+        });
+    }
+});
+firebase.firestore().collection("buttonTwo").doc("l07Kdsa5jGr5RZtGgdST")
+.onSnapshot(function(doc) {
+    if(doc.data().ready===true){
+     firebase.firestore().collection("buttonTwo").doc("SrH9QOTxol9TvQegvCoj").onSnapshot(function(doc) {
+            buttonPlayerNumberTwo.innerText=doc.data().User
+        });
+    }
+});
+gameInterval=setInterval(function(){
+    if(buttonPlayerNumberOne.innerText!="Zajmij miejsce"&&buttonPlayerNumberTwo.innerText!="Zajmij miejsce"){
+
+    }
+},15)
+
+
