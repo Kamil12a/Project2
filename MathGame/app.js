@@ -15,7 +15,7 @@ const action2=document.querySelector(".action2")
 const recomendation2=document.querySelector(".recomendation2")
 const submit=document.querySelector(".submit")
 const submit2=document.querySelector(".submit2")
-const score=document.querySelector(".score")
+const score=document.querySelector(".score1")
 const score2=document.querySelector(".score2")
 NumbGenerator=[Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000)]
 let intervalFirebaseOne
