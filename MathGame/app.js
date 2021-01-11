@@ -20,8 +20,11 @@ const score2=document.querySelector(".score2")
 NumbGenerator=[Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000)]
 let intervalFirebaseOne
 let intervalFirebaseTwo
-
-
+let Moment=0;
+let MomentInGame=0;
+let MomentInGame2=1;
+let randomNumb=[]
+let SolutionNumb=[]
 SignUp.addEventListener("click",e=>{
     CenterInfo.style.display="none"
     Modal.style.display="flex"
@@ -181,8 +184,8 @@ firebase.firestore().collection("buttonOne").doc("SYgf9TX9P139xVWMeoyu")
      firebase.firestore().collection("buttonOne").doc("7b3elcchZeK7hWo3Q2UW").onSnapshot(function(doc) {
             buttonPlayerNumberOne.innerText=doc.data().User
         });
-    }
-});
+        }
+    });
 firebase.firestore().collection("buttonTwo").doc("l07Kdsa5jGr5RZtGgdST")
 .onSnapshot(function(doc) {
     if(doc.data().ready===true){
@@ -191,9 +194,56 @@ firebase.firestore().collection("buttonTwo").doc("l07Kdsa5jGr5RZtGgdST")
         });
     }
 });
-
+let GameStartRandom=false
 gameInterval=setInterval(function(){
     if(buttonPlayerNumberOne.innerText!="Zajmij miejsce"&&buttonPlayerNumberTwo.innerText!="Zajmij miejsce"){
-    showGame()
+       addNumb()
+       showGame()
+       clearInterval(gameInterval)
+       console.log('yes')
     }
+    
 },15)
+Game=setInterval(function(){
+    action.innerText=randomNumb[MomentInGame]+"+"+randomNumb[MomentInGame2]+"="
+    action2.innerText=randomNumb[MomentInGame]+"+"+randomNumb[MomentInGame2]+"="
+    
+},15)
+
+submit.addEventListener('click',e=>{
+    if(SolutionNumb[Moment]===parseInt(score.value)){
+        Moment++;
+        MomentInGame=MomentInGame+2
+        MomentInGame2=MomentInGame2+2
+        score.value=""
+        score2.value=""
+    }
+})
+submit2.addEventListener('click',e=>{
+    if(SolutionNumb[Moment]===parseInt(score2.value)){
+        Moment++;
+        MomentInGame=MomentInGame+2
+        MomentInGame2=MomentInGame2+2
+        score.value=""
+        score2.value=""
+    }
+})
+
+
+function addNumb(){
+        for(i=0;i<10;i++){
+            firebase.firestore().collection("Numbers").doc("number"+i.toString()).get().then(function(doc){
+                randomNumb.push(doc.data().numbers)
+
+            })  
+              
+        
+            }
+            setTimeout(function(){
+                for(i=0;i<10;i=i+2){
+                    SolutionNumb.push(parseInt(randomNumb[i])+parseInt(randomNumb[i+1]))
+                }
+                
+            },500)
+    
+}
