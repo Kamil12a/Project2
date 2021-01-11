@@ -15,10 +15,12 @@ const action2=document.querySelector(".action2")
 const recomendation2=document.querySelector(".recomendation2")
 const submit=document.querySelector(".submit")
 const submit2=document.querySelector(".submit2")
+const score=document.querySelector(".score")
+const score2=document.querySelector(".score2")
 NumbGenerator=[Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000)]
 let intervalFirebaseOne
 let intervalFirebaseTwo
-// 
+
 
 SignUp.addEventListener("click",e=>{
     CenterInfo.style.display="none"
@@ -91,6 +93,17 @@ function LogInUser(){
             logOutUser()
         })
 }
+function showGame(){
+    action.style.display="block"
+    action2.style.display="block"
+    recomendation.style.display="block"
+    recomendation2.style.display="block"
+    submit.style.display="block"
+    submit2.style.display="block"
+    score.style.display="block"
+    score2.style.display="block"
+   
+}
 let TwoReady=false;
 let OneReady=false;
 function generateNumbers(){
@@ -104,7 +117,9 @@ generateNumbers()
 window.onunload = function () {
     LogOutFromFirebase()
 }
-
+window.onbeforeunload= function (){
+    LogOutFromFirebase()
+}
 buttonPlayerNumberOne=document.querySelector(".buttonPlayerOne")
 buttonPlayerNumberOne.addEventListener('click',e=>{
     if(TwoReady===false){
@@ -176,10 +191,9 @@ firebase.firestore().collection("buttonTwo").doc("l07Kdsa5jGr5RZtGgdST")
         });
     }
 });
+
 gameInterval=setInterval(function(){
     if(buttonPlayerNumberOne.innerText!="Zajmij miejsce"&&buttonPlayerNumberTwo.innerText!="Zajmij miejsce"){
-
+    showGame()
     }
 },15)
-
-

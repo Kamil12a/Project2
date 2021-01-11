@@ -141,3 +141,6 @@ main{
     width: 1%;
     
 }
+.score1,.score2{
+    display: block;
+}
