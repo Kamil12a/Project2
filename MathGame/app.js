@@ -257,7 +257,16 @@ submit2.addEventListener('click',e=>{
             Result:true
             
           }).then(function() {
-            
+              randomNumb=[]
+              SolutionNumb=[]
+            setTimeout(function(){
+                firebase.firestore().collection("Solution").doc("WpjQLkptOOTXMaY0xhyW").set({
+                    Result:false
+                    
+                  }).then(function() {
+                    
+                  });
+              },400)
           });
     }
 })
@@ -296,7 +305,7 @@ function drawNumbAgain(){
     generateNumbers()
     Moment=0
     MomentInGame=0
-    MomentInGame2=2
+    MomentInGame2=1
     restart.style.display="block"
 }
 
