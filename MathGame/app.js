@@ -224,6 +224,7 @@ gameInterval=setInterval(function(){
 Game=setInterval(function(){
     action.innerText=randomNumb[MomentInGame]+"+"+randomNumb[MomentInGame2]+"="
     action2.innerText=randomNumb[MomentInGame]+"+"+randomNumb[MomentInGame2]+"="
+    
     if(Moment===5){
         RestartPoint=false
         drawNumbAgain()
@@ -237,7 +238,15 @@ submit.addEventListener('click',e=>{
             Result:true
             
           }).then(function() {
-            
+              setTimeout(function(){
+                firebase.firestore().collection("Solution").doc("WpjQLkptOOTXMaY0xhyW").set({
+                    Result:false
+                    
+                  }).then(function() {
+                    
+                  });
+              },400)
+         
           });
 
     }
@@ -255,6 +264,7 @@ submit2.addEventListener('click',e=>{
 firebase.firestore().collection("Solution").doc("WpjQLkptOOTXMaY0xhyW"
 ).onSnapshot(function(doc) {
     if(doc.data().Result===true){
+        console.log("yes")
         Moment++;
         MomentInGame=MomentInGame+2
         MomentInGame2=MomentInGame2+2
