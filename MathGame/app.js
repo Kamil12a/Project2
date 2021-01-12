@@ -17,9 +17,7 @@ const submit=document.querySelector(".submit")
 const submit2=document.querySelector(".submit2")
 const score=document.querySelector(".score1")
 const score2=document.querySelector(".score2")
-const nick=document.querySelector("#labelnick")
-const labelnick=document.querySelector("#nick")
-
+const restart=document.querySelector(".end")
 
 
 let NumbGenerator=[Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000)]
@@ -33,16 +31,13 @@ let SolutionNumb=[]
 SignUp.addEventListener("click",e=>{
     CenterInfo.style.display="none"
     Modal.style.display="flex"
-    nick.style.display="block"
-    labelnick.style.display="block"
     SubmitForm.value="Stwórz konto"
 })
 LogIn.addEventListener("click",e=>{
     Modal.style.display="flex"
     SubmitForm.value="Zaloguj się"
     CenterInfo.style.display="none"
-    nick.style.display="none"
-    labelnick.style.display="none"
+
 })
 
 CloseFormSignUp.addEventListener('click',e=>{
@@ -71,12 +66,10 @@ LogOutButton.addEventListener('click',e=>{
     firebase.auth().signOut()
     LogOutFromFirebase()
     dissapearGame()
-    IntervalOfGame()
-    getfirebase()
     
 })
 const logOutUser=()=>{
-    firebse.auth().signOut() 
+    firebase.auth().signOut() 
 }
 function signUpUser() {
     email=document.querySelector("#email")
@@ -106,7 +99,7 @@ function LogInUser(){
         })
         .catch((reason)=>{
             alert(reason.message)
-            logOutUser()
+            
         })
 }
 function showGame(){
@@ -199,7 +192,7 @@ function functioReadyOne(){
     })
     firebase.firestore().collection("buttonOne").doc("7b3elcchZeK7hWo3Q2UW").set({
         User:firebase.auth().currentUser.email
-    })
+    }).then()
 }
 
 firebase.firestore().collection("buttonOne").doc("SYgf9TX9P139xVWMeoyu")
@@ -219,7 +212,7 @@ firebase.firestore().collection("buttonTwo").doc("l07Kdsa5jGr5RZtGgdST")
     }
 });
 let GameStartRandom=false
-function IntervalOfGame(){gameInterval=setInterval(function(){
+gameInterval=setInterval(function(){
     if(buttonPlayerNumberOne.innerText!="Zajmij miejsce"&&buttonPlayerNumberTwo.innerText!="Zajmij miejsce"){
        addNumb()
        showGame()
@@ -227,13 +220,13 @@ function IntervalOfGame(){gameInterval=setInterval(function(){
        console.log('yes')
     }
     
-},15)}
-IntervalOfGame()
+},15)
 Game=setInterval(function(){
     action.innerText=randomNumb[MomentInGame]+"+"+randomNumb[MomentInGame2]+"="
     action2.innerText=randomNumb[MomentInGame]+"+"+randomNumb[MomentInGame2]+"="
     if(Moment===5){
         drawNumbAgain()
+        dissapearGame()
     }
 },15)
 
@@ -280,20 +273,12 @@ function drawNumbAgain(){
     generateNumbers()
     Moment=0
     MomentInGame=0
-    MomentInGame2=2
+    MomentInGame2=0
+    restart.style.display="block"
+}
+
+restart.addEventListener("click",e=>{
+    showGame()
     addNumb()
-}
-
-function getfirebase(){
-firebase.firestore().collection("buttonOne").doc("SrH9QOTxol9TvQegvCoj").get().then(function(doc){
-    buttonPlayerNumberOne.innerText= doc.data().User
- 
-
-})  
-firebase.firestore().collection("buttonTwo").doc("7b3elcchZeK7hWo3Q2UW").get().then(function(doc){
-    buttonPlayerNumberTwo.innerText= doc.data().User
- 
-
-})  
-}
-  
+    restart.style.display="none"
+})

@@ -155,9 +155,14 @@ main{
 /* .score1,.score2{
     margin-left: ;
 } */
-#labelnick,#nick{
-    display: none;
-}
+
 .LogOut,.LogIn,.SignUp{
     color: black;
+}
+.end{
+    display: none;
+    position: absolute;
+    top: 50%;
+    margin-left: 40% ;
+    font-size: 2.5em;
 }
