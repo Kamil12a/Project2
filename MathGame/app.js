@@ -225,7 +225,7 @@ Game=setInterval(function(){
     action.innerText=randomNumb[MomentInGame]+"+"+randomNumb[MomentInGame2]+"="
     action2.innerText=randomNumb[MomentInGame]+"+"+randomNumb[MomentInGame2]+"="
     if(Moment===5){
-        restart=false
+        RestartPoint=false
         drawNumbAgain()
         dissapearGame()
     }
@@ -279,13 +279,18 @@ function drawNumbAgain(){
 }
 
 restart.addEventListener("click",e=>{
-    if(restart===false){
-        restart=true;
+    if(RestartPoint===false){
+        RestartPoint=true;
         firebase.firestore().collection("RestartPoints").doc("NrT353oIeQA9P1M1duLL").get().then(function(doc){
             Pointsrestart=doc.data().Point+1
-            firebase.firestore().collection("RestartPoint").doc("NrT353oIeQA9P1M1duLL").set({
-                Point:Pointsrestart
+            
+            }).then(() => {
+                firebase.firestore().collection("RestartPoints").doc("NrT353oIeQA9P1M1duLL").set({
+                    Point:Pointsrestart
             })
+            .catch((reason) => {
+               
+            });
 
         })  
     }
@@ -299,6 +304,10 @@ firebase.firestore().collection("RestartPoints").doc("NrT353oIeQA9P1M1duLL").onS
         showGame()
         addNumb()
         restart.style.display="none"
+        Pointsrestart=0
+        firebase.firestore().collection("RestartPoints").doc("NrT353oIeQA9P1M1duLL").set({
+            Point:0
+    })
     }
 });
 
