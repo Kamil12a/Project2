@@ -19,7 +19,7 @@ const score=document.querySelector(".score1")
 const score2=document.querySelector(".score2")
 const restart=document.querySelector(".end")
 
-
+let RestartPoint=false;
 let NumbGenerator=[Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000)]
 let intervalFirebaseOne
 let intervalFirebaseTwo
@@ -98,7 +98,7 @@ function LogInUser(){
             lane.style.display="block"
         })
         .catch((reason)=>{
-            alert(reason.message)
+            // alert(reason.message)
             
         })
 }
@@ -192,7 +192,7 @@ function functioReadyOne(){
     })
     firebase.firestore().collection("buttonOne").doc("7b3elcchZeK7hWo3Q2UW").set({
         User:firebase.auth().currentUser.email
-    }).then()
+    })
 }
 
 firebase.firestore().collection("buttonOne").doc("SYgf9TX9P139xVWMeoyu")
@@ -225,6 +225,7 @@ Game=setInterval(function(){
     action.innerText=randomNumb[MomentInGame]+"+"+randomNumb[MomentInGame2]+"="
     action2.innerText=randomNumb[MomentInGame]+"+"+randomNumb[MomentInGame2]+"="
     if(Moment===5){
+        restart=false
         drawNumbAgain()
         dissapearGame()
     }
@@ -273,12 +274,33 @@ function drawNumbAgain(){
     generateNumbers()
     Moment=0
     MomentInGame=0
-    MomentInGame2=0
+    MomentInGame2=2
     restart.style.display="block"
 }
 
 restart.addEventListener("click",e=>{
-    showGame()
-    addNumb()
-    restart.style.display="none"
+    if(restart===false){
+        restart=true;
+        firebase.firestore().collection("RestartPoints").doc("NrT353oIeQA9P1M1duLL").get().then(function(doc){
+            Pointsrestart=doc.data().Point+1
+            firebase.firestore().collection("RestartPoint").doc("NrT353oIeQA9P1M1duLL").set({
+                Point:Pointsrestart
+            })
+
+        })  
+    }
+
+    
+
 })
+firebase.firestore().collection("RestartPoints").doc("NrT353oIeQA9P1M1duLL").onSnapshot(function(doc) {
+    if(doc.data().Point===2){
+        generateNumbers()
+        showGame()
+        addNumb()
+        restart.style.display="none"
+    }
+});
+
+
+
