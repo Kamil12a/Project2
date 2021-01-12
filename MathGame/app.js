@@ -125,6 +125,7 @@ function dissapearGame(){
 let TwoReady=false;
 let OneReady=false;
 function generateNumbers(){
+    
     for(i=0;i<10;i++){
         firebase.firestore().collection("Numbers").doc("number"+i.toString()).set({
             numbers:NumbGenerator[i]
@@ -226,8 +227,11 @@ Game=setInterval(function(){
     action2.innerText=randomNumb[MomentInGame]+"+"+randomNumb[MomentInGame2]+"="
     
     if(Moment===5){
+        randomNumb=[]
+        SolutionNumb=[]
         RestartPoint=false
         drawNumbAgain()
+        downloadFromFirebase()
         dissapearGame()
     }
 },15)
@@ -257,8 +261,7 @@ submit2.addEventListener('click',e=>{
             Result:true
             
           }).then(function() {
-              randomNumb=[]
-              SolutionNumb=[]
+              
             setTimeout(function(){
                 firebase.firestore().collection("Solution").doc("WpjQLkptOOTXMaY0xhyW").set({
                     Result:false
@@ -283,6 +286,7 @@ firebase.firestore().collection("Solution").doc("WpjQLkptOOTXMaY0xhyW"
 });
 
 function addNumb(){
+   
         for(i=0;i<10;i++){
             firebase.firestore().collection("Numbers").doc("number"+i.toString()).get().then(function(doc){
                 randomNumb.push(doc.data().numbers)
@@ -302,7 +306,10 @@ function addNumb(){
 //potem sie zajmij
 function drawNumbAgain(){
     NumbGenerator=[Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000)]
+    
+    
     generateNumbers()
+
     Moment=0
     MomentInGame=0
     MomentInGame2=1
@@ -328,9 +335,7 @@ restart.addEventListener("click",e=>{
 })
 firebase.firestore().collection("RestartPoints").doc("NrT353oIeQA9P1M1duLL").onSnapshot(function(doc) {
     if(doc.data().Point===2){
-        generateNumbers()
         showGame()
-        addNumb()
         restart.style.display="none"
         Pointsrestart=0
         firebase.firestore().collection("RestartPoints").doc("NrT353oIeQA9P1M1duLL").set({
@@ -339,6 +344,25 @@ firebase.firestore().collection("RestartPoints").doc("NrT353oIeQA9P1M1duLL").onS
     }
 });
 
+function downloadFromFirebase(){
+    setTimeout(function(){
+        for(i=0;i<10;i++){
+            firebase.firestore().collection("Numbers").doc("number"+i.toString()).get().then(function(doc){
+                randomNumb.push(doc.data().numbers)
+    
+            })  
 
 
+        }
+        setTimeout(function(){
+            for(i=0;i<10;i=i+2){
+                SolutionNumb.push(parseInt(randomNumb[i])+parseInt(randomNumb[i+1]))
+    
+                
+            }
+        },1000)
+      
+    },1000)
+    
+}
 
