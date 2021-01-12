@@ -17,7 +17,12 @@ const submit=document.querySelector(".submit")
 const submit2=document.querySelector(".submit2")
 const score=document.querySelector(".score1")
 const score2=document.querySelector(".score2")
-NumbGenerator=[Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000)]
+const nick=document.querySelector("#labelnick")
+const labelnick=document.querySelector("#nick")
+
+
+
+let NumbGenerator=[Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000)]
 let intervalFirebaseOne
 let intervalFirebaseTwo
 let Moment=0;
@@ -28,13 +33,18 @@ let SolutionNumb=[]
 SignUp.addEventListener("click",e=>{
     CenterInfo.style.display="none"
     Modal.style.display="flex"
+    nick.style.display="block"
+    labelnick.style.display="block"
     SubmitForm.value="Stwórz konto"
 })
 LogIn.addEventListener("click",e=>{
     Modal.style.display="flex"
     SubmitForm.value="Zaloguj się"
     CenterInfo.style.display="none"
+    nick.style.display="none"
+    labelnick.style.display="none"
 })
+
 CloseFormSignUp.addEventListener('click',e=>{
     Modal.style.display="none"
     CenterInfo.style.display="flex"
@@ -60,6 +70,9 @@ LogOutButton.addEventListener('click',e=>{
     LogOutButton.style.display="none"
     firebase.auth().signOut()
     LogOutFromFirebase()
+    dissapearGame()
+    IntervalOfGame()
+    getfirebase()
     
 })
 const logOutUser=()=>{
@@ -105,7 +118,16 @@ function showGame(){
     submit2.style.display="block"
     score.style.display="block"
     score2.style.display="block"
-   
+}
+function dissapearGame(){
+    action.style.display="none"
+    action2.style.display="none"
+    recomendation.style.display="none"
+    recomendation2.style.display="none"
+    submit.style.display="none"
+    submit2.style.display="none"
+    score.style.display="none"
+    score2.style.display="none"
 }
 let TwoReady=false;
 let OneReady=false;
@@ -119,9 +141,11 @@ function generateNumbers(){
 generateNumbers()
 window.onunload = function () {
     LogOutFromFirebase()
+    dissapearGame()
 }
 window.onbeforeunload= function (){
     LogOutFromFirebase()
+    dissapearGame()
 }
 buttonPlayerNumberOne=document.querySelector(".buttonPlayerOne")
 buttonPlayerNumberOne.addEventListener('click',e=>{
@@ -165,7 +189,7 @@ function functioReadyTwo(){
         ready:true
     })
     firebase.firestore().collection("buttonTwo").doc("SrH9QOTxol9TvQegvCoj").set({
-        User:firebase.auth().currentUser.uid
+        User:firebase.auth().currentUser.email
     })
 }
 function functioReadyOne(){
@@ -174,7 +198,7 @@ function functioReadyOne(){
         ready:true
     })
     firebase.firestore().collection("buttonOne").doc("7b3elcchZeK7hWo3Q2UW").set({
-        User:firebase.auth().currentUser.uid
+        User:firebase.auth().currentUser.email
     })
 }
 
@@ -195,7 +219,7 @@ firebase.firestore().collection("buttonTwo").doc("l07Kdsa5jGr5RZtGgdST")
     }
 });
 let GameStartRandom=false
-gameInterval=setInterval(function(){
+function IntervalOfGame(){gameInterval=setInterval(function(){
     if(buttonPlayerNumberOne.innerText!="Zajmij miejsce"&&buttonPlayerNumberTwo.innerText!="Zajmij miejsce"){
        addNumb()
        showGame()
@@ -203,11 +227,14 @@ gameInterval=setInterval(function(){
        console.log('yes')
     }
     
-},15)
+},15)}
+IntervalOfGame()
 Game=setInterval(function(){
     action.innerText=randomNumb[MomentInGame]+"+"+randomNumb[MomentInGame2]+"="
     action2.innerText=randomNumb[MomentInGame]+"+"+randomNumb[MomentInGame2]+"="
-    
+    if(Moment===5){
+        drawNumbAgain()
+    }
 },15)
 
 submit.addEventListener('click',e=>{
@@ -245,5 +272,28 @@ function addNumb(){
                 }
                 
             },500)
-    
 }
+
+//potem sie zajmij
+function drawNumbAgain(){
+    NumbGenerator=[Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000)]
+    generateNumbers()
+    Moment=0
+    MomentInGame=0
+    MomentInGame2=2
+    addNumb()
+}
+
+function getfirebase(){
+firebase.firestore().collection("buttonOne").doc("SrH9QOTxol9TvQegvCoj").get().then(function(doc){
+    buttonPlayerNumberOne.innerText= doc.data().User
+ 
+
+})  
+firebase.firestore().collection("buttonTwo").doc("7b3elcchZeK7hWo3Q2UW").get().then(function(doc){
+    buttonPlayerNumberTwo.innerText= doc.data().User
+ 
+
+})  
+}
+  
