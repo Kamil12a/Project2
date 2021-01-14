@@ -18,6 +18,10 @@ const submit2=document.querySelector(".submit2")
 const score=document.querySelector(".score1")
 const score2=document.querySelector(".score2")
 const restart=document.querySelector(".end")
+const user1=document.querySelector(".ScoreUser1")
+const user2=document.querySelector(".ScoreUser2")
+let UserScore1=0
+let UserScore2=0
 
 let RestartPoint=false;
 let NumbGenerator=[Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000)]
@@ -66,6 +70,7 @@ LogOutButton.addEventListener('click',e=>{
     firebase.auth().signOut()
     LogOutFromFirebase()
     dissapearGame()
+    location.reload()
     
 })
 const logOutUser=()=>{
@@ -111,6 +116,8 @@ function showGame(){
     submit2.style.display="block"
     score.style.display="block"
     score2.style.display="block"
+    user1.style.display="flex"
+    user2.style.display="flex"
 }
 function dissapearGame(){
     action.style.display="none"
@@ -233,15 +240,38 @@ Game=setInterval(function(){
         drawNumbAgain()
         downloadFromFirebase()
         dissapearGame()
+        firebase.firestore().collection("Player1").doc("JTQjGciVyaITP1MkBtEb").set({
+            Points:0
+            
+          })
+          firebase.firestore().collection("Player2").doc("52QdZcCOBIXoeYWN2KPX").set({
+            Points:0
+            
+          })
     }
+       
+    user1.innerText=UserScore1.toString()
+    user2.innerText=UserScore2.toString()
 },15)
-
+firebase.firestore().collection("Player1").doc("52QdZcCOBIXoeYWN2KPX"
+).onSnapshot(function(doc) {
+    UserScore1=doc.data().Points
+});
+firebase.firestore().collection("Player2").doc("JTQjGciVyaITP1MkBtEb"
+).onSnapshot(function(doc) {
+    UserScore2=doc.data().Points
+});
 submit.addEventListener('click',e=>{
     if(SolutionNumb[Moment]===parseInt(score.value)){
         firebase.firestore().collection("Solution").doc("WpjQLkptOOTXMaY0xhyW").set({
             Result:true
             
           }).then(function() {
+              UserScore1++
+            firebase.firestore().collection("Player1").doc("52QdZcCOBIXoeYWN2KPX").set({
+                Points:UserScore1
+                
+              })
               setTimeout(function(){
                 firebase.firestore().collection("Solution").doc("WpjQLkptOOTXMaY0xhyW").set({
                     Result:false
@@ -261,7 +291,11 @@ submit2.addEventListener('click',e=>{
             Result:true
             
           }).then(function() {
-              
+        }).then(function() {
+            UserScore2++
+          firebase.firestore().collection("Player2").doc("JTQjGciVyaITP1MkBtEb").set({
+              Points:UserScore2
+            })
             setTimeout(function(){
                 firebase.firestore().collection("Solution").doc("WpjQLkptOOTXMaY0xhyW").set({
                     Result:false
@@ -318,6 +352,20 @@ function drawNumbAgain(){
 
 restart.addEventListener("click",e=>{
     if(RestartPoint===false){
+        
+            firebase.firestore().collection("Player1").doc("JTQjGciVyaITP1MkBtEb").set({
+                Points:0
+                
+              })
+              firebase.firestore().collection("Player2").doc("52QdZcCOBIXoeYWN2KPX").set({
+                Points:0
+                
+              })
+              UserScore1=0
+            UserScore2=0
+       
+       
+    
         RestartPoint=true;
         firebase.firestore().collection("RestartPoints").doc("NrT353oIeQA9P1M1duLL").get().then(function(doc){
             Pointsrestart=doc.data().Point+1
@@ -330,8 +378,8 @@ restart.addEventListener("click",e=>{
                
             });
 
-        })  
-    }
+        })  }
+    
 })
 firebase.firestore().collection("RestartPoints").doc("NrT353oIeQA9P1M1duLL").onSnapshot(function(doc) {
     if(doc.data().Point===2){
@@ -366,3 +414,11 @@ function downloadFromFirebase(){
     
 }
 
+firebase.firestore().collection("Player1").doc("52QdZcCOBIXoeYWN2KPX").set({
+    Points:0
+    
+  })
+  firebase.firestore().collection("Player2").doc("JTQjGciVyaITP1MkBtEb").set({
+    Points:0
+    
+  })
