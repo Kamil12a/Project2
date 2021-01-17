@@ -20,6 +20,7 @@ const score2=document.querySelector(".score2")
 const restart=document.querySelector(".end")
 const user1=document.querySelector(".ScoreUser1")
 const user2=document.querySelector(".ScoreUser2")
+const body=document.querySelector("body")
 let UserScore1=0
 let UserScore2=0
 
@@ -70,7 +71,10 @@ LogOutButton.addEventListener('click',e=>{
     firebase.auth().signOut()
     LogOutFromFirebase()
     dissapearGame()
-    location.reload()
+    setTimeout(function(){
+        location.reload()
+    },200)
+    
     
 })
 const logOutUser=()=>{
@@ -101,10 +105,6 @@ function LogInUser(){
             SignUp.style.display="none"
             LogIn.style.display="none"
             lane.style.display="block"
-        })
-        .catch((reason)=>{
-            // alert(reason.message)
-            
         })
 }
 function showGame(){
@@ -148,6 +148,25 @@ window.onbeforeunload= function (){
     LogOutFromFirebase()
     dissapearGame()
 }
+let timer=0
+function Inactivity(){setInterval(function(){
+    timer++
+    if(timer===60){
+        SignUp.style.display="inline-block"
+    LogIn.style.display="inline-block"
+    mainPlayerPlaces.style.display="none"
+    List_Log_Sign.style.display="block"
+    LogOutButton.style.display="none"
+    firebase.auth().signOut()
+    LogOutFromFirebase()
+    dissapearGame()
+    location.reload()
+    }
+},1000)}
+Inactivity()
+body.addEventListener("mousemove",e=>{
+    timer=0;
+})
 buttonPlayerNumberOne=document.querySelector(".buttonPlayerOne")
 buttonPlayerNumberOne.addEventListener('click',e=>{
     if(TwoReady===false){
@@ -161,6 +180,68 @@ buttonPlayerNumberTwo.addEventListener('click',e=>{
         TwoReady=false;
         functioReadyTwo()
     }
+    })
+    submit.addEventListener('click',e=>{
+        if(SolutionNumb[Moment]===parseInt(score.value)){
+            firebase.firestore().collection("Solution").doc("WpjQLkptOOTXMaY0xhyW").set({
+                Result:true
+                
+              }).then(function() {
+                  UserScore1++
+                firebase.firestore().collection("Player1").doc("52QdZcCOBIXoeYWN2KPX").set({
+                    Points:UserScore1
+                    
+                  })
+                  setTimeout(function(){
+                    firebase.firestore().collection("Solution").doc("WpjQLkptOOTXMaY0xhyW").set({
+                        Result:false
+                        
+                      })
+                  },400)
+             
+              });
+    
+        }
+    })
+    restart.addEventListener("click",e=>{
+        if(RestartPoint===false){     
+                firebase.firestore().collection("Player1").doc("JTQjGciVyaITP1MkBtEb").set({
+                    Points:0              
+                  })
+                  firebase.firestore().collection("Player2").doc("52QdZcCOBIXoeYWN2KPX").set({
+                    Points:0      
+                  })
+                  UserScore1=0
+                UserScore2=0
+            RestartPoint=true;
+            firebase.firestore().collection("RestartPoints").doc("NrT353oIeQA9P1M1duLL").get().then(function(doc){
+                Pointsrestart=doc.data().Point+1
+                
+                }).then(() => {
+                    firebase.firestore().collection("RestartPoints").doc("NrT353oIeQA9P1M1duLL").set({
+                        Point:Pointsrestart
+                })
+            })  }
+    })
+    submit2.addEventListener('click',e=>{
+        if(SolutionNumb[Moment]===parseInt(score2.value)){
+            firebase.firestore().collection("Solution").doc("WpjQLkptOOTXMaY0xhyW").set({
+                Result:true
+                
+              }).then(function() {
+            }).then(function() {
+                UserScore2++
+              firebase.firestore().collection("Player2").doc("JTQjGciVyaITP1MkBtEb").set({
+                  Points:UserScore2
+                })
+                setTimeout(function(){
+                    firebase.firestore().collection("Solution").doc("WpjQLkptOOTXMaY0xhyW").set({
+                        Result:false
+                        
+                      })
+                  },400)
+              });
+        }
     })
  function   LogOutFromFirebase(){
      if(OneReady===true){
@@ -202,23 +283,44 @@ function functioReadyOne(){
         User:firebase.auth().currentUser.email
     })
 }
-
-firebase.firestore().collection("buttonOne").doc("SYgf9TX9P139xVWMeoyu")
-.onSnapshot(function(doc) {
-    if(doc.data().ready===true){
-     firebase.firestore().collection("buttonOne").doc("7b3elcchZeK7hWo3Q2UW").onSnapshot(function(doc) {
-            buttonPlayerNumberOne.innerText=doc.data().User
-        });
+function addNumb(){
+ 
+    for(i=0;i<10;i++){
+        firebase.firestore().collection("Numbers").doc("number"+i.toString()).get().then(function(doc){
+            randomNumb.push(doc.data().numbers)
+        })  
         }
-    });
-firebase.firestore().collection("buttonTwo").doc("l07Kdsa5jGr5RZtGgdST")
-.onSnapshot(function(doc) {
-    if(doc.data().ready===true){
-     firebase.firestore().collection("buttonTwo").doc("SrH9QOTxol9TvQegvCoj").onSnapshot(function(doc) {
-            buttonPlayerNumberTwo.innerText=doc.data().User
-        });
-    }
-});
+        setTimeout(function(){
+            for(i=0;i<10;i=i+2){
+                SolutionNumb.push(parseInt(randomNumb[i])+parseInt(randomNumb[i+1]))
+            }     
+        },500)
+}
+
+//potem sie zajmij
+function drawNumbAgain(){
+NumbGenerator=[Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000)] 
+generateNumbers()
+Moment=0
+MomentInGame=0
+MomentInGame2=1
+restart.style.display="block"
+}
+function downloadFromFirebase(){
+    setTimeout(function(){
+        for(i=0;i<10;i++){
+            firebase.firestore().collection("Numbers").doc("number"+i.toString()).get().then(function(doc){
+                randomNumb.push(doc.data().numbers)
+            })  
+        }
+        setTimeout(function(){
+            for(i=0;i<10;i=i+2){
+                SolutionNumb.push(parseInt(randomNumb[i])+parseInt(randomNumb[i+1]))       
+            }
+        },1000)
+    },1000)   
+}
+
 let GameStartRandom=false
 gameInterval=setInterval(function(){
     if(buttonPlayerNumberOne.innerText!="Zajmij miejsce"&&buttonPlayerNumberTwo.innerText!="Zajmij miejsce"){
@@ -261,52 +363,22 @@ firebase.firestore().collection("Player2").doc("JTQjGciVyaITP1MkBtEb"
 ).onSnapshot(function(doc) {
     UserScore2=doc.data().Points
 });
-submit.addEventListener('click',e=>{
-    if(SolutionNumb[Moment]===parseInt(score.value)){
-        firebase.firestore().collection("Solution").doc("WpjQLkptOOTXMaY0xhyW").set({
-            Result:true
-            
-          }).then(function() {
-              UserScore1++
-            firebase.firestore().collection("Player1").doc("52QdZcCOBIXoeYWN2KPX").set({
-                Points:UserScore1
-                
-              })
-              setTimeout(function(){
-                firebase.firestore().collection("Solution").doc("WpjQLkptOOTXMaY0xhyW").set({
-                    Result:false
-                    
-                  }).then(function() {
-                    
-                  });
-              },400)
-         
-          });
-
+firebase.firestore().collection("buttonOne").doc("SYgf9TX9P139xVWMeoyu")
+.onSnapshot(function(doc) {
+    if(doc.data().ready===true){
+     firebase.firestore().collection("buttonOne").doc("7b3elcchZeK7hWo3Q2UW").onSnapshot(function(doc) {
+            buttonPlayerNumberOne.innerText=doc.data().User
+        });
+        }
+    });
+firebase.firestore().collection("buttonTwo").doc("l07Kdsa5jGr5RZtGgdST")
+.onSnapshot(function(doc) {
+    if(doc.data().ready===true){
+     firebase.firestore().collection("buttonTwo").doc("SrH9QOTxol9TvQegvCoj").onSnapshot(function(doc) {
+            buttonPlayerNumberTwo.innerText=doc.data().User
+        });
     }
-})
-submit2.addEventListener('click',e=>{
-    if(SolutionNumb[Moment]===parseInt(score2.value)){
-        firebase.firestore().collection("Solution").doc("WpjQLkptOOTXMaY0xhyW").set({
-            Result:true
-            
-          }).then(function() {
-        }).then(function() {
-            UserScore2++
-          firebase.firestore().collection("Player2").doc("JTQjGciVyaITP1MkBtEb").set({
-              Points:UserScore2
-            })
-            setTimeout(function(){
-                firebase.firestore().collection("Solution").doc("WpjQLkptOOTXMaY0xhyW").set({
-                    Result:false
-                    
-                  }).then(function() {
-                    
-                  });
-              },400)
-          });
-    }
-})
+});
 firebase.firestore().collection("Solution").doc("WpjQLkptOOTXMaY0xhyW"
 ).onSnapshot(function(doc) {
     if(doc.data().Result===true){
@@ -319,68 +391,8 @@ firebase.firestore().collection("Solution").doc("WpjQLkptOOTXMaY0xhyW"
     }
 });
 
-function addNumb(){
-   
-        for(i=0;i<10;i++){
-            firebase.firestore().collection("Numbers").doc("number"+i.toString()).get().then(function(doc){
-                randomNumb.push(doc.data().numbers)
 
-            })  
-              
-        
-            }
-            setTimeout(function(){
-                for(i=0;i<10;i=i+2){
-                    SolutionNumb.push(parseInt(randomNumb[i])+parseInt(randomNumb[i+1]))
-                }
-                
-            },500)
-}
 
-//potem sie zajmij
-function drawNumbAgain(){
-    NumbGenerator=[Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000),Math.floor(Math.random() *1000)]
-    
-    
-    generateNumbers()
-
-    Moment=0
-    MomentInGame=0
-    MomentInGame2=1
-    restart.style.display="block"
-}
-
-restart.addEventListener("click",e=>{
-    if(RestartPoint===false){
-        
-            firebase.firestore().collection("Player1").doc("JTQjGciVyaITP1MkBtEb").set({
-                Points:0
-                
-              })
-              firebase.firestore().collection("Player2").doc("52QdZcCOBIXoeYWN2KPX").set({
-                Points:0
-                
-              })
-              UserScore1=0
-            UserScore2=0
-       
-       
-    
-        RestartPoint=true;
-        firebase.firestore().collection("RestartPoints").doc("NrT353oIeQA9P1M1duLL").get().then(function(doc){
-            Pointsrestart=doc.data().Point+1
-            
-            }).then(() => {
-                firebase.firestore().collection("RestartPoints").doc("NrT353oIeQA9P1M1duLL").set({
-                    Point:Pointsrestart
-            })
-            .catch((reason) => {
-               
-            });
-
-        })  }
-    
-})
 firebase.firestore().collection("RestartPoints").doc("NrT353oIeQA9P1M1duLL").onSnapshot(function(doc) {
     if(doc.data().Point===2){
         showGame()
@@ -392,33 +404,9 @@ firebase.firestore().collection("RestartPoints").doc("NrT353oIeQA9P1M1duLL").onS
     }
 });
 
-function downloadFromFirebase(){
-    setTimeout(function(){
-        for(i=0;i<10;i++){
-            firebase.firestore().collection("Numbers").doc("number"+i.toString()).get().then(function(doc){
-                randomNumb.push(doc.data().numbers)
-    
-            })  
-
-
-        }
-        setTimeout(function(){
-            for(i=0;i<10;i=i+2){
-                SolutionNumb.push(parseInt(randomNumb[i])+parseInt(randomNumb[i+1]))
-    
-                
-            }
-        },1000)
-      
-    },1000)
-    
-}
-
 firebase.firestore().collection("Player1").doc("52QdZcCOBIXoeYWN2KPX").set({
-    Points:0
-    
+    Points:0   
   })
   firebase.firestore().collection("Player2").doc("JTQjGciVyaITP1MkBtEb").set({
-    Points:0
-    
+    Points:0 
   })
