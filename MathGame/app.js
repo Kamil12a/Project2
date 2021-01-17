@@ -104,7 +104,7 @@ function LogInUser(){
             LogOutButton.style.display="block"
             SignUp.style.display="none"
             LogIn.style.display="none"
-            lane.style.display="block"
+            
         })
 }
 function showGame(){
