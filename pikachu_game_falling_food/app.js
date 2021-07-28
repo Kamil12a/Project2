@@ -188,7 +188,6 @@ var lastUpdateTime = Date.now();
 const update = () => {
     const now = Date.now();
     const dTime = now - lastUpdateTime;
-    // console.log(dTime)
     let direction = left && right ? 0 : right ? 1 : !right&&!left ? 0 : left ? -1 : 1 ; 
     if(Spaceplay===true){
         direction=0
@@ -256,14 +255,11 @@ function checker(object){
         
         
         addPoints();
-        console.log(object.style.transform)
-       
         object.setAttribute("id","none")
         object.style.transform="translateY(0px)"
         object.style.display="none"
         objectToFall.push(object.className)
         fallingNumbers[object.className.toString()]=0
-        console.log("now")  
         if(object===lighting){
             sound[Math.floor(Math.random()*3)].play();
         }   
@@ -327,31 +323,6 @@ function game(){ Game=
 }
 
 
-
-//1 sposob
-// var intervals = []
-
-// for(let i = 0; i < 10; i += 1) {
-//     const intervalId = setInterval(() => console.log(i), 1000);
-//     intervals.push(intervalId)
-// }
-
-// function clearAll() {
-//     intervals.forEach(i => clearInterval(i));
-// }
-
-//2 sposob  
-// var fruitIntervals = {}
-
-// for (let i = 0; i < 10; i += 1) {
-//     const intervalId = setInterval(() => console.log(i), 1000);
-//     fruitIntervals[`fruit-${i}`] = intervalId;
-// }
-
-// function clearFruit(fruitId) {
-//     clearInterval(fruitIntervals[fruitId]);
-//     delete fruitIntervals[fruitId];
-// }
 let rankObject = {};
 const username=document.querySelector('.username')
 form.addEventListener('submit',e=>{
@@ -366,18 +337,10 @@ form.addEventListener('submit',e=>{
             renderPlaces()
             hideform()
         },500)
-    },500)
-    
-    
-    
+    },500)  
 })
-
 firebase.firestore().collection('ranking').onSnapshot((ranking) => render(ranking));
-
 function render(ranking) {
-	
-
-	
     ranking.forEach((ranking) => {
         const username = ranking.data().username;
         const points = ranking.data().points;
@@ -392,8 +355,6 @@ function renderPlaces(){
     let firstPlace=0
     let secoundPlace=0
     let thirdPlace=0
-    // let secoundPlace=rankObject[Object.keys(rankObject)[0]]
-    // let thirdPlace=rankObject[Object.keys(rankObject)[0]]
     let firstName=""
     let secoundName=""
     let thirdName=""
